@@ -1,4 +1,5 @@
-﻿using System;
+﻿using File_IO.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace File_IO
     {
         static void Main(string[] args)
         {
+            FileParsing fileParsing = new FileParsing();
+            fileParsing.ParseFile(args[0]);
         }
     }
 }
