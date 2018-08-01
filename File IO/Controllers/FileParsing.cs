@@ -41,7 +41,7 @@ namespace File_IO.Controllers
             string start = line[0].ToString().ToUpper() + line[1];
             string end = line[3].ToString().ToUpper() + line[4];
 
-            return $"Move {start} to {end} and caputred piece at {end}";
+            return $"Move {start} to {end} and captured piece at {end}";
         }
 
         private string PlacePiece(string line)
