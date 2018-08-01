@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace File_IO.Models
 {
-
-    public enum Pieces
-    {
-        K, Q, B, N, R, P,
-    }
-
-    public enum PieceColor
-    {
-        L, D
-    }
-
-    
     class ChessPieces
     {
         public Dictionary<string, string> ChessPiece { get; }

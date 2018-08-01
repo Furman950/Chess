@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Controllers\FileParsing.cs" />
     <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\ChessPiece.cs" />
     <Compile Include="Models\ChessPieces.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
