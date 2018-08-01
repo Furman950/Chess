@@ -15,6 +15,14 @@ namespace File_IO.Models {
             }
         }
 
+        public void SetPiece(int x, int y, ChessPiece piece) {
+            board[x][y] = piece;
+        }
+
+        public ChessPiece GetPiece(int x, int y) {
+            return board[x][y];
+        }
+
         public override string ToString() {
             StringBuilder output = new StringBuilder();
             foreach (ChessPiece[] row in board) {
