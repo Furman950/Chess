@@ -1,4 +1,5 @@
-﻿using File_IO.Models;
+﻿using Chess.View;
+using File_IO.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ namespace File_IO.Controllers
     class FileParsing
     {
         ChessPieces pieces;
+        Board board = new Board();
         public void ParseFile(string fileName)
         {
             pieces = new ChessPieces();
@@ -34,12 +36,21 @@ namespace File_IO.Controllers
                 }
 
             }
+            ConsoleView consoleView = new ConsoleView();
+            consoleView.DisplayBoard(board);
         }
 
         private string CapturePiece(string line)
         {
             string start = line[0].ToString().ToUpper() + line[1];
             string end = line[3].ToString().ToUpper() + line[4];
+
+            int x1 = char.ToLower(line[0]) - 97;
+            int y1 = int.Parse(line[1].ToString()) - 1;
+            int x2 = char.ToLower(line[3]) - 97;
+            int y2 = int.Parse(line[4].ToString()) - 1;
+            PieceMove(x1, y1, x2, y2);
+            //Add points?
 
             return $"Move {start} to {end} and captured piece at {end}";
         }
@@ -50,6 +61,12 @@ namespace File_IO.Controllers
             {
                 if (pieces.PieceColor.TryGetValue(line[1].ToString(), out string color))
                 {
+                    ChessPiece chessPiece = new ChessPiece((Pieces)Enum.Parse(typeof (Pieces), line[0].ToString(), true),
+                        (PieceColor)Enum.Parse(typeof (PieceColor), line[1].ToString(), true));
+                    int x = char.ToLower(line[2]) - 97;
+                    int y = int.Parse(line[3].ToString()) - 1;
+                    board.SetPiece(x, y, chessPiece);
+
                     return $"Place {color} {piece} on {line[2]}{line[3]}";
                 }
             }
@@ -63,8 +80,18 @@ namespace File_IO.Controllers
 
         private string MoveSinglePiece(string line)
         {
+            int x1 = char.ToLower(line[0]) - 97;
+            int y1 = int.Parse(line[1].ToString()) - 1;
+            int x2 = char.ToLower(line[3]) - 97;
+            int y2 = int.Parse(line[4].ToString()) - 1;
+            PieceMove(x1, y1, x2, y2);
+
             return $"Move {line[0].ToString().ToUpper()}{line[1]} to " +
                 $"{line[3].ToString().ToUpper()}{line[4]}";
+        }
+        private void PieceMove(int x1, int y1, int x2, int y2) {
+            board.SetPiece(x2, y2, board.GetPiece(x1, y1));
+            board.SetPiece(x1, y1, null);
         }
     }
 }

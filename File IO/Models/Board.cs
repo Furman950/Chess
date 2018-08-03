@@ -25,18 +25,30 @@ namespace File_IO.Models {
 
         public override string ToString() {
             StringBuilder output = new StringBuilder();
-            foreach (ChessPiece[] row in board) {
-                foreach (ChessPiece piece in row) {
-                    if (piece == null) {
+            for (int y = 0; y < board[0].Length; y++) {
+                for (int x = 0; x < board.Length; x++) {
+                    if (board[x][y] == null) {
                         output.Append("-");
                     } else {
-                        output.Append(piece.ToString());
+                        output.Append(board[x][y].ToString());
                     }
                 }
-                if (row != board.Last()) {
+                if (y != 7) {
                     output.Append("\n");
                 }
             }
+            //foreach (ChessPiece[] row in board) {
+            //    foreach (ChessPiece piece in row) {
+            //        if (piece == null) {
+            //            output.Append("-");
+            //        } else {
+            //            output.Append(piece.ToString());
+            //        }
+            //    }
+            //    if (row != board.Last()) {
+            //        output.Append("\n");
+            //    }
+            //}
             return output.ToString();
         }
     }
