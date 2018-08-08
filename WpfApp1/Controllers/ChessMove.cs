@@ -124,7 +124,33 @@ namespace WpfApp1.Controllers
 
         private bool MoveKnight()
         {
-            throw new NotImplementedException();
+            bool isValidLocation = IsValidMoveKnight();
+            ChessPiece placeMovedTo = board.GetPiece(toX, toY);
+            bool isNotOccupiedByFriendlyPiece = placeMovedTo == null || placeMovedTo.Color != movingPiece.Color;
+            bool isValidMove = isValidLocation && isNotOccupiedByFriendlyPiece;
+            if(isValidMove) {
+                board.SetPiece(toX, toY, movingPiece);
+                board.SetPiece(locationX, locationY, null);
+            }
+            return isValidMove;
+        }
+
+        private bool IsValidMoveKnight() {
+            bool isValid;
+            int absoluteValueX = Math.Abs(locationX - toX);
+            int absoluteValueY = Math.Abs(locationY - toY);
+            switch (absoluteValueX) {
+                case 1:
+                    isValid = absoluteValueY == 2;
+                    break;
+                case 2:
+                    isValid = absoluteValueY == 1;
+                    break;
+                default:
+                    isValid = false;
+                    break;
+            }
+            return isValid;
         }
 
         private bool MoveBishop()
@@ -143,7 +169,18 @@ namespace WpfApp1.Controllers
 
         private bool MoveKing()
         {
-            if (locationX )
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            throw new NotImplementedException();
+=======
+>>>>>>> 094208ab53add26c5fd2d2088d184727a2684fda
+            if (Math.Abs(locationX - toX) < 2 && Math.Abs(locationY - toY) < 2 &&
+                !(locationX == toX && locationY == toY)) {
+                return board[toX, toY] == null || board[toX, toY].Color != movingPiece.Color;
+            } else {
+                return false;
+            }
         }
 
         private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
