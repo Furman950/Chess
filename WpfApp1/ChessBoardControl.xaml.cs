@@ -24,5 +24,33 @@ namespace ChessDisplay
         {
             InitializeComponent();
         }
+
+        public void loadedChessBoard(Object sender, RoutedEventArgs e) {
+            MakeBoardCheckered();
+        }
+
+        public void MakeBoardCheckered() {
+            ColumnDefinition[] columnDefinitions = Board.ColumnDefinitions.ToArray();
+            RowDefinition[] rowDefinitions = Board.RowDefinitions.ToArray();
+            for (int column = 0; column < columnDefinitions.Length; column++)
+            {
+                int alternation = column % 2;
+                for (int row = 0; row < rowDefinitions.Length; row++)
+                {
+                    if (row % 2 == alternation)
+                    {
+                        Board.Children.Add(AddBoardRectangle(row, column));
+                    }
+                }
+            }
+        }
+
+        public Rectangle AddBoardRectangle(int row, int column) {
+            Rectangle rect = new Rectangle();
+            rect.Fill = new SolidColorBrush(Colors.DarkGray);
+            rect.SetValue(Grid.RowProperty, row);
+            rect.SetValue(Grid.ColumnProperty, column);
+            return rect;
+        }
     }
 }

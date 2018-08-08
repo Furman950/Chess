@@ -14,8 +14,7 @@ namespace Chess.Interfaces
         /// specific board
         /// </summary>
         /// <param name="board">The board being displayed</param>
-        Board DisplayBoard { get; set; }
-
+        void DisplayBoard(Board board);
         
     }
 }
