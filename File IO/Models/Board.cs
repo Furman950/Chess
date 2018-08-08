@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace File_IO.Models {
-    class Board {
+    public class Board {
         private ChessPiece[][] board;
 
         public Board() {

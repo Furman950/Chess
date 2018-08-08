@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace File_IO.Models
 {
-    class ChessPieces
+    public class ChessPieces
     {
         public Dictionary<string, string> ChessPiece { get; }
         public Dictionary<string, string> PieceColor { get; }

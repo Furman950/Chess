@@ -16,7 +16,7 @@ namespace File_IO.Models
     {
         L, D
     }
-    class ChessPiece
+    public class ChessPiece
     {
         public Pieces Piece{ get; set; }
 
