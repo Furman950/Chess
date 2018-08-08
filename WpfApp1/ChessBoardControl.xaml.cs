@@ -1,4 +1,5 @@
-﻿using System;
+﻿using File_IO.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,14 @@ namespace ChessDisplay
     /// </summary>
     public partial class ChessBoardControl : UserControl
     {
+        private Board board;
+
+        public Board Board {
+            get { return board; }
+            set { board = value; }
+        }
+
+
         public ChessBoardControl()
         {
             InitializeComponent();
@@ -27,11 +36,16 @@ namespace ChessDisplay
 
         public void loadedChessBoard(Object sender, RoutedEventArgs e) {
             MakeBoardCheckered();
+            ViewBoardPieces();
+        }
+
+        public void ViewBoardPieces() {
+           
         }
 
         public void MakeBoardCheckered() {
-            ColumnDefinition[] columnDefinitions = Board.ColumnDefinitions.ToArray();
-            RowDefinition[] rowDefinitions = Board.RowDefinitions.ToArray();
+            ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
+            RowDefinition[] rowDefinitions = BoardDisplay.RowDefinitions.ToArray();
             for (int column = 0; column < columnDefinitions.Length; column++)
             {
                 int alternation = column % 2;
@@ -39,7 +53,7 @@ namespace ChessDisplay
                 {
                     if (row % 2 == alternation)
                     {
-                        Board.Children.Add(AddBoardRectangle(row, column));
+                        BoardDisplay.Children.Add(AddBoardRectangle(row, column));
                     }
                 }
             }
