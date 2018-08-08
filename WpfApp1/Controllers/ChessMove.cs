@@ -45,7 +45,72 @@ namespace WpfApp1.Controllers
         }
         private bool MovePawn()
         {
-            
+            if (movingPiece.Color == PieceColor.L)
+            {
+                //Move two squares check
+                if (toY == 3 && locationY == 1 && toX == locationX)
+                {
+                    for (int y = (locationY + 1); y <= toY; y++)
+                    {
+                        if (board[toX, y] != null)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                //Check for moving to square
+                else if (toY - locationY == 1 && toX == locationX)
+                {
+
+                }
+
+                //Check for Capturing
+                else if (toY - locationY == 1 && (toX == locationX - 1 || toX == locationX + 1) &&
+                    (board[toX, toY] != null))
+                {
+
+                }
+                else
+                    return false;
+            }
+
+            else
+            {
+                //Move two squares check
+                if (toY == 4 && locationY == 6 && toX == locationX)
+                {
+                    for (int y = (locationY - 1); y >= toY; y--)
+                    {
+                        if (board[toX, y] != null)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                //Check for moving to square
+                else if (toY - locationY == 1 && toX == locationX)
+                {
+
+                }
+
+                //Check for Capturing
+                else if (toY - locationY == 1 && (toX == locationX - 1 || toX == locationX + 1) &&
+                    (board[toX, toY] != null))
+                {
+
+                }
+
+                else
+                    return false;
+            }
+
+
+            board[toX, toY] = movingPiece;
+            board[locationX, locationY] = null;
+
+            return true;
         }
 
         private bool MoveRook()
