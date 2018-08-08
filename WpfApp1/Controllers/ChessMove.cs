@@ -169,12 +169,6 @@ namespace WpfApp1.Controllers
 
         private bool MoveKing()
         {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            throw new NotImplementedException();
-=======
->>>>>>> 094208ab53add26c5fd2d2088d184727a2684fda
             if (Math.Abs(locationX - toX) < 2 && Math.Abs(locationY - toY) < 2 &&
                 !(locationX == toX && locationY == toY)) {
                 return board[toX, toY] == null || board[toX, toY].Color != movingPiece.Color;
