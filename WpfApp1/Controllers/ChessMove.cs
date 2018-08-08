@@ -78,7 +78,7 @@ namespace WpfApp1.Controllers
 
         private bool MoveKing()
         {
-            if (locationX )
+            return board[toX, toY] == null || board[toX, toY].Color != movingPiece.Color;
         }
 
         private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
