@@ -83,19 +83,27 @@ namespace WpfApp1.Controllers
 
         private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
             if (locationX == toX && locationY == toY) {
-                return true;
+                if (board[locationX, locationY] == null || board[locationX, locationY].Color != movingPiece.Color) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else if ((locationX != toX && locationY != toY) ||
                 Math.Abs(locationX - toX) != Math.Abs(locationY - toY)) {
                 return false;
-            } else if (locationX == toX) {
-                return CheckDirection(locationX, locationY + (Math.Abs(toY - locationY) / (toY - locationY)),
-                    toX, toY);
-            } else if (locationY == toY) {
-                return CheckDirection(locationX + (Math.Abs(toX - locationX) / (toX - locationX)), locationY,
-                    toX, toY);
+            } else if (board[locationX, locationY] == null) {
+                if (locationX == toX) {
+                    return CheckDirection(locationX, locationY + (Math.Abs(toY - locationY) / (toY - locationY)),
+                        toX, toY);
+                } else if (locationY == toY) {
+                    return CheckDirection(locationX + (Math.Abs(toX - locationX) / (toX - locationX)), locationY,
+                        toX, toY);
+                } else {
+                    return CheckDirection(locationX + (Math.Abs(toX - locationX) / (toX - locationX)),
+                        locationY + (Math.Abs(toY - locationY) / (toY - locationY)), toX, toY);
+                }
             } else {
-                return CheckDirection(locationX + (Math.Abs(toX - locationX) / (toX - locationX)),
-                    locationY + (Math.Abs(toY - locationY) / (toY - locationY)), toX, toY);
+                return false;
             }
         }
     }
