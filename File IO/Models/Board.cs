@@ -23,6 +23,15 @@ namespace File_IO.Models {
             return board[y][x];
         }
 
+        public ChessPiece this[int x, int y] {
+            get {
+                return board[y][x];
+            }
+            set {
+                board[y][x] = value;
+            }
+        }
+
         public override string ToString() {
             StringBuilder output = new StringBuilder();
             //for (int y = 0; y < board[0].Length; y++) {

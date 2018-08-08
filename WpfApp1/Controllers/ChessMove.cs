@@ -50,7 +50,11 @@ namespace WpfApp1.Controllers
 
         private bool MoveRook()
         {
-            throw new NotImplementedException();
+            if (locationX == toX || locationY == toY) {
+                return CheckDirection(locationX, locationY, toX, toY);
+            } else {
+                return false;
+            }
         }
 
         private bool MoveKnight()
@@ -86,17 +90,52 @@ namespace WpfApp1.Controllers
 
         private bool MoveBishop()
         {
-            throw new NotImplementedException();
+            if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY)) {
+                return CheckDirection(locationX, locationY, toX, toY);
+            } else {
+                return false;
+            }
         }
 
         private bool MoveQueen()
         {
-            throw new NotImplementedException();
+            return CheckDirection(locationX, locationY, toX, toY);
         }
 
         private bool MoveKing()
         {
-            throw new NotImplementedException();
+            if (Math.Abs(locationX - toX) < 2 && Math.Abs(locationY - toY) < 2 &&
+                !(locationX == toX && locationY == toY)) {
+                return board[toX, toY] == null || board[toX, toY].Color != movingPiece.Color;
+            } else {
+                return false;
+            }
+        }
+
+        private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
+            if (locationX == toX && locationY == toY) {
+                if (board[locationX, locationY] == null || board[locationX, locationY].Color != movingPiece.Color) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if ((locationX != toX && locationY != toY) ||
+                Math.Abs(locationX - toX) != Math.Abs(locationY - toY)) {
+                return false;
+            } else if (board[locationX, locationY] == null) {
+                if (locationX == toX) {
+                    return CheckDirection(locationX, locationY + (Math.Abs(toY - locationY) / (toY - locationY)),
+                        toX, toY);
+                } else if (locationY == toY) {
+                    return CheckDirection(locationX + (Math.Abs(toX - locationX) / (toX - locationX)), locationY,
+                        toX, toY);
+                } else {
+                    return CheckDirection(locationX + (Math.Abs(toX - locationX) / (toX - locationX)),
+                        locationY + (Math.Abs(toY - locationY) / (toY - locationY)), toX, toY);
+                }
+            } else {
+                return false;
+            }
         }
     }
 }
