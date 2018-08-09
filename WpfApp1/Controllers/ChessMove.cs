@@ -153,7 +153,7 @@ namespace WpfApp1.Controllers
             } else if ((locationX != toX && locationY != toY) ||
                 Math.Abs(locationX - toX) != Math.Abs(locationY - toY)) {
                 return false;
-            } else if (board[locationX, locationY] == null) {
+            } else if (board[locationX, locationY] == null || board[locationX, locationY] == movingPiece) {
                 if (locationX == toX) {
                     return CheckDirection(locationX, locationY + (Math.Abs(toY - locationY) / (toY - locationY)),
                         toX, toY);
