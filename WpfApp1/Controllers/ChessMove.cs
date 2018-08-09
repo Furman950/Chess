@@ -115,7 +115,7 @@ namespace WpfApp1.Controllers
 
         private bool MoveRook()
         {
-            if (locationX == toX || locationY == toY) {
+            if (locationX == toX ^ locationY == toY) {
                 return CheckDirection(locationX, locationY, toX, toY);
             } else {
                 return false;
@@ -155,7 +155,7 @@ namespace WpfApp1.Controllers
 
         private bool MoveBishop()
         {
-            if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY)) {
+            if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY) && Math.Abs(locationX - toX) != 0) {
                 return CheckDirection(locationX, locationY, toX, toY);
             } else {
                 return false;
@@ -164,7 +164,11 @@ namespace WpfApp1.Controllers
 
         private bool MoveQueen()
         {
-            return CheckDirection(locationX, locationY, toX, toY);
+            if (locationX == toX && locationY == toY) {
+                return false;
+            } else {
+                return CheckDirection(locationX, locationY, toX, toY);
+            }
         }
 
         private bool MoveKing()
