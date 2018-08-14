@@ -55,6 +55,20 @@ namespace File_IO.Models {
             return false;
         }
 
+        public bool CheckMate(PieceColor kingColor) {
+            int kingX = 0;
+            int kingY = 0;
+            for (int y = 0; y < board.Length; y++) {
+                for (int x = 0; x < board[y].Length; x++) {
+                    if (board[y][x] != null && board[y][x].Piece == Pieces.K && board[y][x].Color == kingColor) {
+                        kingX = x;
+                        kingY = y;
+                    }
+                }
+            }
+            throw new NotImplementedException();
+        }
+
         public Board Clone() {
             Board newBoard = new Board();
             for (int y = 0; y < board.Length; y++) {
