@@ -19,42 +19,49 @@ namespace WpfApp1.Controllers
         {
             if ((movingPiece = board.GetPiece(locationX, locationY)) != null)
             {
-                MovingPiece.locationX = locationX;
-                MovingPiece.locationY = locationY;
-                MovingPiece.toX = toX;
-                MovingPiece.toY = toY;
-                MovingPiece.board = board;
-
-                bool result = false;
-                switch (movingPiece.Piece)
-                {
-                    case Pieces.K:
-                        result = MoveKing();
-                        break;
-                    case Pieces.Q:
-                        result = MoveQueen();
-                        break;
-                    case Pieces.B:
-                        result = MoveBishop();
-                        break;
-                    case Pieces.N:
-                        result = MoveKnight();
-                        break;
-                    case Pieces.R:
-                        result = MoveRook();
-                        break;
-                    case Pieces.P:
-                        result = MovePawn();
-                        break;
-                }
-
-                if (result && movingPiece.Color != lastColor) {
+                if (CheckMove(locationX, locationY, toX, toY, board) && movingPiece.Color != lastColor) {
+                    Board previousBoard = board.Clone();
                     board[locationX, locationY] = null;
                     board[toX, toY] = movingPiece;
-                    lastColor = movingPiece.Color;
+                    if (board.Check(movingPiece.Color)) {
+                        board = previousBoard;
+                    } else {
+                        lastColor = movingPiece.Color;
+                    }
                 }
             }
         }
+        public static bool CheckMove(int locationX, int locationY, int toX, int toY, Board board) {
+            MovingPiece.locationX = locationX;
+            MovingPiece.locationY = locationY;
+            MovingPiece.toX = toX;
+            MovingPiece.toY = toY;
+            MovingPiece.board = board;
+
+            bool result = false;
+            switch (movingPiece.Piece) {
+                case Pieces.K:
+                    result = MoveKing();
+                    break;
+                case Pieces.Q:
+                    result = MoveQueen();
+                    break;
+                case Pieces.B:
+                    result = MoveBishop();
+                    break;
+                case Pieces.N:
+                    result = MoveKnight();
+                    break;
+                case Pieces.R:
+                    result = MoveRook();
+                    break;
+                case Pieces.P:
+                    result = MovePawn();
+                    break;
+            }
+            return result;
+        }
+
         private static bool MovePawn()
         {
             int colorCoefficient = 1;
