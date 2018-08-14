@@ -79,6 +79,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\ChessPiece.cs" />
+    <Compile Include="Models\ChessPieces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
