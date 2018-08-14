@@ -10,132 +10,96 @@ namespace WpfApp1.Controllers
 {
     public class MovingPiece
     {
-        private ChessPiece movingPiece;
-        private int locationX, locationY, toX, toY;
-        private Board board;
+        private static ChessPiece movingPiece;
+        private static int locationX, locationY, toX, toY;
+        private static Board board;
+        private static PieceColor lastColor = PieceColor.D;
 
-        public bool Move(int locationX, int locationY, int toX, int toY, Board board)
+        public static void Move(int locationX, int locationY, int toX, int toY, Board board)
         {
             if ((movingPiece = board.GetPiece(locationX, locationY)) != null)
             {
-                this.locationX = locationX;
-                this.locationY = locationY;
-                this.toX = toX;
-                this.toY = toY;
-                this.board = board;
+                MovingPiece.locationX = locationX;
+                MovingPiece.locationY = locationY;
+                MovingPiece.toX = toX;
+                MovingPiece.toY = toY;
+                MovingPiece.board = board;
 
+                bool result = false;
                 switch (movingPiece.Piece)
                 {
                     case Pieces.K:
-                        return MoveKing();
+                        result = MoveKing();
+                        break;
                     case Pieces.Q:
-                        return MoveQueen();
+                        result = MoveQueen();
+                        break;
                     case Pieces.B:
-                        return MoveBishop();
+                        result = MoveBishop();
+                        break;
                     case Pieces.N:
-                        return MoveKnight();
+                        result = MoveKnight();
+                        break;
                     case Pieces.R:
-                        return MoveRook();
+                        result = MoveRook();
+                        break;
                     case Pieces.P:
-                        return MovePawn();
+                        result = MovePawn();
+                        break;
+                }
+
+                if (result && movingPiece.Color != lastColor) {
+                    board[locationX, locationY] = null;
+                    board[toX, toY] = movingPiece;
+                    lastColor = movingPiece.Color;
                 }
             }
-
+        }
+        private static bool MovePawn()
+        {
+            int colorCoefficient = 1;
+            if (movingPiece.Color == PieceColor.D) {
+                colorCoefficient = -1;
+            }
+            if (locationX == toX) {
+                //Two-space movement check
+                if ((locationY == 0 || locationY == 6) && toY - locationY == 2 * colorCoefficient) {
+                    if (board[locationX, locationY + colorCoefficient] == null &&
+                        board[locationX, locationY + colorCoefficient * 2] == null) {
+                        return true;
+                    }
+                } else if (toY - locationY == colorCoefficient) {           //One-space movement check
+                    if (board[locationX, locationY + colorCoefficient] == null) {
+                        return true;
+                    }
+                }
+            } else if (Math.Abs(toX - locationX) == 1 && toY - locationY == colorCoefficient) {     //Capture check
+                if (board[locationX, locationY + colorCoefficient] != null) {
+                    return true;
+                }
+            }
             return false;
         }
-        private bool MovePawn()
+
+        private static bool MoveRook()
         {
-            if (movingPiece.Color == PieceColor.L)
-            {
-                //Move two squares check
-                if (toY == 3 && locationY == 1 && toX == locationX)
-                {
-                    for (int y = (locationY + 1); y <= toY; y++)
-                    {
-                        if (board[toX, y] != null)
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                //Check for moving to square
-                else if (toY - locationY == 1 && toX == locationX)
-                {
-
-                }
-
-                //Check for Capturing
-                else if (toY - locationY == 1 && (toX == locationX - 1 || toX == locationX + 1) &&
-                    (board[toX, toY] != null))
-                {
-
-                }
-                else
-                    return false;
-            }
-
-            else
-            {
-                //Move two squares check
-                if (toY == 4 && locationY == 6 && toX == locationX)
-                {
-                    for (int y = (locationY - 1); y >= toY; y--)
-                    {
-                        if (board[toX, y] != null)
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                //Check for moving to square
-                else if (toY - locationY == 1 && toX == locationX)
-                {
-
-                }
-
-                //Check for Capturing
-                else if (toY - locationY == 1 && (toX == locationX - 1 || toX == locationX + 1) &&
-                    (board[toX, toY] != null))
-                {
-
-                }
-
-                else
-                    return false;
-            }
-
-
-            board[toX, toY] = movingPiece;
-            board[locationX, locationY] = null;
-
-            return true;
-        }
-
-        private bool MoveRook()
-        {
-            if (locationX == toX || locationY == toY) {
+            if (locationX == toX ^ locationY == toY) {
                 return CheckDirection(locationX, locationY, toX, toY);
             } else {
                 return false;
             }
         }
 
-        private bool MoveKnight()
+        private static bool MoveKnight()
         {
             bool isValidLocation = IsValidMoveKnight();
             ChessPiece placeMovedTo = board.GetPiece(toX, toY);
             bool isNotOccupiedByFriendlyPiece = placeMovedTo == null || placeMovedTo.Color != movingPiece.Color;
             bool isValidMove = isValidLocation && isNotOccupiedByFriendlyPiece;
-            if(isValidMove) {
-                board.SetPiece(toX, toY, movingPiece);
-                board.SetPiece(locationX, locationY, null);
-            }
             return isValidMove;
         }
 
-        private bool IsValidMoveKnight() {
+        private static bool IsValidMoveKnight() {
             bool isValid;
             int absoluteValueX = Math.Abs(locationX - toX);
             int absoluteValueY = Math.Abs(locationY - toY);
@@ -153,21 +117,25 @@ namespace WpfApp1.Controllers
             return isValid;
         }
 
-        private bool MoveBishop()
+        private static bool MoveBishop()
         {
-            if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY)) {
+            if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY) && Math.Abs(locationX - toX) != 0) {
                 return CheckDirection(locationX, locationY, toX, toY);
             } else {
                 return false;
             }
         }
 
-        private bool MoveQueen()
+        private static bool MoveQueen()
         {
-            return CheckDirection(locationX, locationY, toX, toY);
+            if (locationX == toX && locationY == toY) {
+                return false;
+            } else {
+                return CheckDirection(locationX, locationY, toX, toY);
+            }
         }
 
-        private bool MoveKing()
+        private static bool MoveKing()
         {
             if (Math.Abs(locationX - toX) < 2 && Math.Abs(locationY - toY) < 2 &&
                 !(locationX == toX && locationY == toY)) {
@@ -177,7 +145,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
+        private static bool CheckDirection(int locationX, int locationY, int toX, int toY) {
             if (locationX == toX && locationY == toY) {
                 if (board[locationX, locationY] == null || board[locationX, locationY].Color != movingPiece.Color) {
                     return true;
@@ -187,7 +155,7 @@ namespace WpfApp1.Controllers
             } else if ((locationX != toX && locationY != toY) ||
                 Math.Abs(locationX - toX) != Math.Abs(locationY - toY)) {
                 return false;
-            } else if (board[locationX, locationY] == null) {
+            } else if (board[locationX, locationY] == null || board[locationX, locationY] == movingPiece) {
                 if (locationX == toX) {
                     return CheckDirection(locationX, locationY + (Math.Abs(toY - locationY) / (toY - locationY)),
                         toX, toY);
