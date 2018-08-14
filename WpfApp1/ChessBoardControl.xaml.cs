@@ -1,6 +1,7 @@
 ﻿using File_IO.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,11 @@ namespace ChessDisplay
     /// <summary>
     /// Interaction logic for ChessBoardControl.xaml
     /// </summary>
-    public partial class ChessBoardControl : UserControl
+    public partial class ChessBoardControl : UserControl, INotifyPropertyChanged
     {
         private Board board;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Board Board {
             get { return board; }
@@ -32,6 +35,7 @@ namespace ChessDisplay
         public ChessBoardControl()
         {
             InitializeComponent();
+            ChessPieceImages.setChessAssets("./chess-piece-silhouettes-and-symbols.jpg");
         }
 
         public void loadedChessBoard(Object sender, RoutedEventArgs e) {
@@ -40,7 +44,24 @@ namespace ChessDisplay
         }
 
         public void ViewBoardPieces() {
-           
+            ChessPiece pieceHolder;
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    pieceHolder = Board.GetPiece(x, y);
+                    if (pieceHolder != null) {
+                        PlacePiece(x, y, pieceHolder);
+                    }
+                }
+            }
+        }
+
+        public void PlacePiece(int x, int y, ChessPiece pieceHolder) {
+
+            ////Image piece =
+            //piece.SetValue(Grid.RowProperty, y);
+            //piece.SetValue(Grid.ColumnProperty, x);
         }
 
         public void MakeBoardCheckered() {
