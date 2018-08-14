@@ -10,19 +10,20 @@ namespace WpfApp1.Controllers
 {
     public class MovingPiece
     {
-        private ChessPiece movingPiece;
-        private int locationX, locationY, toX, toY;
-        private Board board;
+        private static ChessPiece movingPiece;
+        private static int locationX, locationY, toX, toY;
+        private static Board board;
+        private static PieceColor lastColor = PieceColor.D;
 
-        public void Move(int locationX, int locationY, int toX, int toY, Board board)
+        public static void Move(int locationX, int locationY, int toX, int toY, Board board)
         {
             if ((movingPiece = board.GetPiece(locationX, locationY)) != null)
             {
-                this.locationX = locationX;
-                this.locationY = locationY;
-                this.toX = toX;
-                this.toY = toY;
-                this.board = board;
+                MovingPiece.locationX = locationX;
+                MovingPiece.locationY = locationY;
+                MovingPiece.toX = toX;
+                MovingPiece.toY = toY;
+                MovingPiece.board = board;
 
                 bool result = false;
                 switch (movingPiece.Piece)
@@ -47,13 +48,14 @@ namespace WpfApp1.Controllers
                         break;
                 }
 
-                if (result) {
+                if (result && movingPiece.Color != lastColor) {
                     board[locationX, locationY] = null;
                     board[toX, toY] = movingPiece;
+                    lastColor = movingPiece.Color;
                 }
             }
         }
-        private bool MovePawn()
+        private static bool MovePawn()
         {
             int colorCoefficient = 1;
             if (movingPiece.Color == PieceColor.D) {
@@ -79,7 +81,7 @@ namespace WpfApp1.Controllers
             return false;
         }
 
-        private bool MoveRook()
+        private static bool MoveRook()
         {
             if (locationX == toX ^ locationY == toY) {
                 return CheckDirection(locationX, locationY, toX, toY);
@@ -88,7 +90,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private bool MoveKnight()
+        private static bool MoveKnight()
         {
             bool isValidLocation = IsValidMoveKnight();
             ChessPiece placeMovedTo = board.GetPiece(toX, toY);
@@ -97,7 +99,7 @@ namespace WpfApp1.Controllers
             return isValidMove;
         }
 
-        private bool IsValidMoveKnight() {
+        private static bool IsValidMoveKnight() {
             bool isValid;
             int absoluteValueX = Math.Abs(locationX - toX);
             int absoluteValueY = Math.Abs(locationY - toY);
@@ -115,7 +117,7 @@ namespace WpfApp1.Controllers
             return isValid;
         }
 
-        private bool MoveBishop()
+        private static bool MoveBishop()
         {
             if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY) && Math.Abs(locationX - toX) != 0) {
                 return CheckDirection(locationX, locationY, toX, toY);
@@ -124,7 +126,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private bool MoveQueen()
+        private static bool MoveQueen()
         {
             if (locationX == toX && locationY == toY) {
                 return false;
@@ -133,7 +135,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private bool MoveKing()
+        private static bool MoveKing()
         {
             if (Math.Abs(locationX - toX) < 2 && Math.Abs(locationY - toY) < 2 &&
                 !(locationX == toX && locationY == toY)) {
@@ -143,7 +145,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
+        private static bool CheckDirection(int locationX, int locationY, int toX, int toY) {
             if (locationX == toX && locationY == toY) {
                 if (board[locationX, locationY] == null || board[locationX, locationY].Color != movingPiece.Color) {
                     return true;
