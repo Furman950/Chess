@@ -28,14 +28,16 @@ namespace ChessDisplay
 
         public Board Board {
             get { return board; }
-            set { board = value; }
+            set { board = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Board"));
+            }
         }
 
 
         public ChessBoardControl()
         {
             InitializeComponent();
-            ChessPieceImages.setChessAssets("./chess-piece-silhouettes-and-symbols.jpg");
+            ChessPieceImages.setChessAssets("././chess-piece-silhouettes-and-symbols.jpg");
         }
 
         public void loadedChessBoard(Object sender, RoutedEventArgs e) {
