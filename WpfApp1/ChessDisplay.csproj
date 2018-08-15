@@ -119,8 +119,6 @@
     <Resource Include="Resources\RookD.png" />
     <Resource Include="Resources\RookL.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

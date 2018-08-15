@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfApp1.Controllers;
 
 namespace File_IO.Models {
     public class Board {
