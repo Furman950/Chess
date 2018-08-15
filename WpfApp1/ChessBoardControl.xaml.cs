@@ -20,51 +20,22 @@ namespace ChessDisplay
     /// <summary>
     /// Interaction logic for ChessBoardControl.xaml
     /// </summary>
-    public partial class ChessBoardControl : UserControl, INotifyPropertyChanged
+    public partial class ChessBoardControl : UserControl
     {
         private Board board;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Board Board {
             get { return board; }
             set { board = value; }
         }
 
-
         public ChessBoardControl()
         {
             InitializeComponent();
-            ChessPieceImages.setChessAssets("./chess-piece-silhouettes-and-symbols.jpg");
         }
 
-        public void loadedChessBoard(Object sender, RoutedEventArgs e) {
-            MakeBoardCheckered();
-            ViewBoardPieces();
-        }
 
-        public void ViewBoardPieces() {
-            ChessPiece pieceHolder;
-            for (int y = 0; y < 8; y++)
-            {
-                for (int x = 0; x < 8; x++)
-                {
-                    pieceHolder = Board.GetPiece(x, y);
-                    if (pieceHolder != null) {
-                        PlacePiece(x, y, pieceHolder);
-                    }
-                }
-            }
-        }
-
-        public void PlacePiece(int x, int y, ChessPiece pieceHolder) {
-
-            ////Image piece =
-            //piece.SetValue(Grid.RowProperty, y);
-            //piece.SetValue(Grid.ColumnProperty, x);
-        }
-
-        public void MakeBoardCheckered() {
+        public void MakeBoardCheckered(object sender, RoutedEventArgs e) {
             ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
             RowDefinition[] rowDefinitions = BoardDisplay.RowDefinitions.ToArray();
             for (int column = 0; column < columnDefinitions.Length; column++)
@@ -72,7 +43,7 @@ namespace ChessDisplay
                 int alternation = column % 2;
                 for (int row = 0; row < rowDefinitions.Length; row++)
                 {
-                    if (row % 2 == alternation)
+                    if (row % 2 != alternation)
                     {
                         BoardDisplay.Children.Add(AddBoardRectangle(row, column));
                     }

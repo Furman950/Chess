@@ -11,6 +11,9 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <local:ChessBoardControl></local:ChessBoardControl>
+
+        <Grid Grid.Column="0">
+            <local:ChessBoardControl></local:ChessBoardControl>
+        </Grid>
     </Grid>
 </Window>

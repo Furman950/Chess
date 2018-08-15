@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Chess;
 using File_IO.Models;
 
 namespace WpfApp1.Controllers
