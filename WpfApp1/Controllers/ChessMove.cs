@@ -8,35 +8,40 @@ using File_IO.Models;
 
 namespace WpfApp1.Controllers
 {
-    public class MovingPiece
-    {
-        private static ChessPiece movingPiece;
-        private static int locationX, locationY, toX, toY;
-        private static Board board;
-        private static PieceColor lastColor = PieceColor.D;
+    public class MovingPiece {
+        private ChessPiece movingPiece;
+        private int locationX, locationY, toX, toY;
+        private Board board;
+        private PieceColor lastColor = PieceColor.D;
 
-        public static void Move(int locationX, int locationY, int toX, int toY, Board board)
-        {
-            if ((movingPiece = board.GetPiece(locationX, locationY)) != null)
-            {
+        public bool Move(int locationX, int locationY, int toX, int toY, Board board) {
+            if ((movingPiece = board.GetPiece(locationX, locationY)) != null) {
                 if (CheckMove(locationX, locationY, toX, toY, board) && movingPiece.Color != lastColor) {
-                    Board previousBoard = board.Clone();
-                    board[locationX, locationY] = null;
-                    board[toX, toY] = movingPiece;
-                    if (board.Check(movingPiece.Color)) {
-                        board = previousBoard;
-                    } else {
+                    Board boardClone = board.Clone();
+                    boardClone[locationX, locationY] = null;
+                    boardClone[toX, toY] = movingPiece;
+                    if (!boardClone.Check(movingPiece.Color)) {
+                        board = boardClone;
                         lastColor = movingPiece.Color;
+                        return true;
                     }
                 }
             }
+            return false;
         }
-        public static bool CheckMove(int locationX, int locationY, int toX, int toY, Board board) {
-            MovingPiece.locationX = locationX;
-            MovingPiece.locationY = locationY;
-            MovingPiece.toX = toX;
-            MovingPiece.toY = toY;
-            MovingPiece.board = board;
+        public void FlipColor() {
+            if (lastColor == PieceColor.D) {
+                lastColor = PieceColor.L;
+            } else {
+                lastColor = PieceColor.D;
+            }
+        }
+        public bool CheckMove(int locationX, int locationY, int toX, int toY, Board board) {
+            this.locationX = locationX;
+            this.locationY = locationY;
+            this.toX = toX;
+            this.toY = toY;
+            this.board = board;
 
             bool result = false;
             switch (movingPiece.Piece) {
@@ -62,7 +67,7 @@ namespace WpfApp1.Controllers
             return result;
         }
 
-        private static bool MovePawn()
+        private bool MovePawn()
         {
             int colorCoefficient = 1;
             if (movingPiece.Color == PieceColor.D) {
@@ -88,7 +93,7 @@ namespace WpfApp1.Controllers
             return false;
         }
 
-        private static bool MoveRook()
+        private bool MoveRook()
         {
             if (locationX == toX ^ locationY == toY) {
                 return CheckDirection(locationX, locationY, toX, toY);
@@ -97,7 +102,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private static bool MoveKnight()
+        private bool MoveKnight()
         {
             bool isValidLocation = IsValidMoveKnight();
             ChessPiece placeMovedTo = board.GetPiece(toX, toY);
@@ -106,7 +111,7 @@ namespace WpfApp1.Controllers
             return isValidMove;
         }
 
-        private static bool IsValidMoveKnight() {
+        private bool IsValidMoveKnight() {
             bool isValid;
             int absoluteValueX = Math.Abs(locationX - toX);
             int absoluteValueY = Math.Abs(locationY - toY);
@@ -124,7 +129,7 @@ namespace WpfApp1.Controllers
             return isValid;
         }
 
-        private static bool MoveBishop()
+        private bool MoveBishop()
         {
             if (Math.Abs(locationX - toX) == Math.Abs(locationY - toY) && Math.Abs(locationX - toX) != 0) {
                 return CheckDirection(locationX, locationY, toX, toY);
@@ -133,7 +138,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private static bool MoveQueen()
+        private bool MoveQueen()
         {
             if (locationX == toX && locationY == toY) {
                 return false;
@@ -142,7 +147,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private static bool MoveKing()
+        private bool MoveKing()
         {
             if (Math.Abs(locationX - toX) < 2 && Math.Abs(locationY - toY) < 2 &&
                 !(locationX == toX && locationY == toY)) {
@@ -152,7 +157,7 @@ namespace WpfApp1.Controllers
             }
         }
 
-        private static bool CheckDirection(int locationX, int locationY, int toX, int toY) {
+        private bool CheckDirection(int locationX, int locationY, int toX, int toY) {
             if (locationX == toX && locationY == toY) {
                 if (board[locationX, locationY] == null || board[locationX, locationY].Color != movingPiece.Color) {
                     return true;
