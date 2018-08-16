@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace File_IO.Models {
-    public class Board {
+    public class Board : INotifyPropertyChanged{
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private ChessPiece[][] board;
         private PieceColor lastColor = PieceColor.D;
 
@@ -79,6 +83,7 @@ namespace File_IO.Models {
             }
             set {
                 board[y][x] = value;
+                Notify(Binding.IndexerName);
             }
         }
 
@@ -362,6 +367,16 @@ namespace File_IO.Models {
                 }
             }
             return output;
+        }
+
+
+        /**********************************************************/
+
+        private void Notify(string property)
+        {
+            var pc = PropertyChanged;
+            if (pc != null)
+                pc(this, new PropertyChangedEventArgs(property));
         }
     }
 }
