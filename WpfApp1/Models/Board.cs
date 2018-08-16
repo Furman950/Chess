@@ -5,16 +5,20 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using WpfApp1.Models;
 
 namespace File_IO.Models {
     public class Board {
-        private ChessPiece[][] board;
+        private Space[][] board;
         private PieceColor lastColor = PieceColor.D;
 
         public Board() {
-            board = new ChessPiece[8][];
+            board = new Space[8][];
             for (int y = 0; y < board.Length; y++) {
-                board[y] = new ChessPiece[8];
+                board[y] = new Space[8];
+                for (int x = 0; x < board[y].Length; x++) {
+                    board[y][x] = new Space();
+                }
             }
             SetUpBoard();
         }
@@ -66,19 +70,23 @@ namespace File_IO.Models {
         }
 
         public void SetPiece(int x, int y, ChessPiece piece) {
-            board[y][x] = piece;
+            this[x, y] = piece;
         }
 
         public ChessPiece GetPiece(int x, int y) {
+            return this[x, y];
+        }
+
+        public Space GetSpace(int x, int y) {
             return board[y][x];
         }
 
         public ChessPiece this[int x, int y] {
             get {
-                return board[y][x];
+                return board[y][x].ChessPiece;
             }
             set {
-                board[y][x] = value;
+                board[y][x].ChessPiece = value;
             }
         }
 
@@ -87,7 +95,7 @@ namespace File_IO.Models {
             int kingY = 0;
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
-                    if (board[y][x] != null && board[y][x].Piece == Pieces.K && board[y][x].Color == kingColor) {
+                    if (this[x, y] != null && this[x, y].Piece == Pieces.K && this[x, y].Color == kingColor) {
                         kingX = x;
                         kingY = y;
                     }
@@ -95,7 +103,7 @@ namespace File_IO.Models {
             }
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
-                    if (board[y][x] != null && board[y][x].Color != kingColor) {
+                    if (this[x, y] != null && this[x, y].Color != kingColor) {
                         if (CheckMove(x, y, kingX, kingY)) {
                             return true;
                         }
@@ -107,24 +115,10 @@ namespace File_IO.Models {
 
         public bool CheckMate(PieceColor kingColor) {
             if (Check(kingColor)) {
-                //Find King
-                int kingX = 0;
-                int kingY = 0;
-                ChessPiece king = new ChessPiece(Pieces.K, kingColor);
-                for (int y = 0; y < board.Length; y++) {
-                    for (int x = 0; x < board[y].Length; x++) {
-                        if (board[y][x] != null && board[y][x].Piece == Pieces.K && board[y][x].Color == kingColor) {
-                            kingX = x;
-                            kingY = y;
-                            king = board[y][x];
-                        }
-                    }
-                }
-
                 //Try moves to get out of check
                 for (int startY = 0; startY < board.Length; startY++) {
                     for (int startX = 0; startX < board[startY].Length; startX++) {
-                        if (board[startY][startX] != null && board[startY][startX].Color == kingColor) {
+                        if (this[startX, startY] != null && this[startX, startY].Color == kingColor) {
                             for (int toY = 0; toY < board.Length; toY++) {
                                 for (int toX = 0; toX < board[toY].Length; toX++) {
                                     Board boardClone = this.Clone();
@@ -149,7 +143,7 @@ namespace File_IO.Models {
             };
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
-                    newBoard[x, y] = board[y][x];
+                    newBoard[x, y] = this[x, y];
                 }
             }
             return newBoard;
@@ -157,7 +151,7 @@ namespace File_IO.Models {
         public void Copy(Board otherBoard) {
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
-                    board[y][x] = otherBoard[x, y];
+                    this[x, y] = otherBoard[x, y];
                 }
             }
             lastColor = otherBoard.lastColor;
@@ -165,24 +159,12 @@ namespace File_IO.Models {
 
         public override string ToString() {
             StringBuilder output = new StringBuilder();
-            //for (int y = 0; y < board[0].Length; y++) {
-            //    for (int x = 0; x < board.Length; x++) {
-            //        if (board[x][y] == null) {
-            //            output.Append("-");
-            //        } else {
-            //            output.Append(board[x][y].ToString());
-            //        }
-            //    }
-            //    if (y != 7) {
-            //        output.Append("\n");
-            //    }
-            //}
-            foreach (ChessPiece[] row in board) {
-                foreach (ChessPiece piece in row) {
-                    if (piece == null) {
+            foreach (Space[] row in board) {
+                foreach (Space space in row) {
+                    if (space.ChessPiece == null) {
                         output.Append("-");
                     } else {
-                        output.Append(piece.ToString());
+                        output.Append(space.ChessPiece.ToString());
                     }
                 }
                 if (row != board.Last()) {
@@ -194,12 +176,12 @@ namespace File_IO.Models {
 
         public bool Move(int locationX, int locationY, int toX, int toY) {
             ChessPiece movingPiece = this[locationX, locationY];
-            if (this.CheckMove(locationX, locationY, toX, toY) && movingPiece.Color != lastColor) {
-                Board boardClone = this.Clone();
+            if (CheckMove(locationX, locationY, toX, toY) && movingPiece.Color != lastColor) {
+                Board boardClone = Clone();
                 boardClone[locationX, locationY] = null;
                 boardClone[toX, toY] = movingPiece;
                 if (!boardClone.Check(movingPiece.Color)) {
-                    this.Copy(boardClone);
+                    Copy(boardClone);
                     lastColor = movingPiece.Color;
                     return true;
                 }
