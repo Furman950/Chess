@@ -44,14 +44,14 @@ namespace File_IO.Models {
                 this[i, 1] = new ChessPiece(Pieces.P, PieceColor.L, pawnD);
             }
 
-            //Transpernt image
-            for (int row = 2; row < 6; row++)
-            {
-                for (int column = 0; column < 8; column++)
-                {
-                    this[column, row] = new ChessPiece(transparent);
-                }
-            }
+            ////Transpernt image
+            //for (int row = 2; row < 6; row++)
+            //{
+            //    for (int column = 0; column < 8; column++)
+            //    {
+            //        this[column, row] = new ChessPiece(transparent);
+            //    }
+            //}
 
             ////Light
             this[0, 7] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_L.png", UriKind.Relative)));
