@@ -1,4 +1,5 @@
-﻿using System;
+﻿using File_IO.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace ChessDisplay
         public MainWindow()
         {
             InitializeComponent();
+            chessBoard.Board = new Board();
         }
     }
 }

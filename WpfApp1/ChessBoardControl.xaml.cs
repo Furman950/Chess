@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +26,8 @@ namespace ChessDisplay
     {
         private Board board;
 
+        private ChessPieces pieces = new ChessPieces();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Board Board {
@@ -35,7 +39,6 @@ namespace ChessDisplay
         public ChessBoardControl()
         {
             InitializeComponent();
-            ChessPieceImages.setChessAssets("./chess-piece-silhouettes-and-symbols.jpg");
         }
 
         public void loadedChessBoard(Object sender, RoutedEventArgs e) {
@@ -59,9 +62,22 @@ namespace ChessDisplay
 
         public void PlacePiece(int x, int y, ChessPiece pieceHolder) {
 
-            ////Image piece =
-            //piece.SetValue(Grid.RowProperty, y);
-            //piece.SetValue(Grid.ColumnProperty, x);
+            Image piece = GetPieceImage(pieceHolder);
+            piece.SetValue(Grid.RowProperty, y);
+            piece.SetValue(Grid.ColumnProperty, x);
+        }
+
+        public Image GetPieceImage(ChessPiece pieceHolder) {
+            Image image = new Image();
+            string name = "";
+            pieces.ChessPiece.TryGetValue(pieceHolder.Piece.ToString(), out name);
+            string imageName = "../../Resources" + name + pieceHolder.Color.ToString() + ".png";
+            Assembly asm = Assembly.GetExecutingAssembly();
+            Stream iconStream = asm.GetManifestResourceStream(imageName);
+            PngBitmapDecoder iconDecoder = new PngBitmapDecoder(iconStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+            ImageSource iconSource = iconDecoder.Frames[0];
+            image.Source = iconSource;
+            return image;
         }
 
         public void MakeBoardCheckered() {
