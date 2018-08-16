@@ -37,7 +37,7 @@ namespace ChessDisplay
                     chessSquare.SetValue(Grid.ColumnProperty, column);
                     chessSquare.SetValue(Grid.RowProperty, row);
                     chessSquare.MouseDown += ChessBoard_MouseDown;
-                    chessSquare.SetPicture(board[column, row]);
+                    chessSquare.SetPicture(board.GetSpace(column, row));
 
                     ChessBoard.Children.Add(chessSquare);
                     grey = !grey;
