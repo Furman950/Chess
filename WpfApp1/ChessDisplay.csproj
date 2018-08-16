@@ -60,6 +60,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ChessSquare.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,8 +75,9 @@
     <Compile Include="ChessBoardControl.xaml.cs">
       <DependentUpon>ChessBoardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChessPieceImages.cs" />
-    <Compile Include="Controllers\ChessMove.cs" />
+    <Compile Include="ChessSquare.xaml.cs">
+      <DependentUpon>ChessSquare.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -108,10 +113,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\File IO\Chess.csproj">
-      <Project>{65b366e7-cb04-4e9d-8ec3-688644aebf46}</Project>
-      <Name>Chess</Name>
-    </ProjectReference>
+    <Resource Include="Resources\B_D.png" />
+    <Resource Include="Resources\B_L.png" />
+    <Resource Include="Resources\K_D.png" />
+    <Resource Include="Resources\K_L.png" />
+    <Resource Include="Resources\N_D.png" />
+    <Resource Include="Resources\N_L.png" />
+    <Resource Include="Resources\P_D.png" />
+    <Resource Include="Resources\P_L.png" />
+    <Resource Include="Resources\Q_D.png" />
+    <Resource Include="Resources\Q_L.png" />
+    <Resource Include="Resources\R_D.png" />
+    <Resource Include="Resources\R_L.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

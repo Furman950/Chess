@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace File_IO.Models
 {
@@ -16,18 +15,37 @@ namespace File_IO.Models
     {
         L, D
     }
-    public class ChessPiece
+    public class ChessPiece : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private BitmapImage bitmapImage;
         public Pieces Piece{ get; set; }
 
         public PieceColor Color { get; set; }
+        public BitmapImage BitmapImage {
+            get { return bitmapImage; }
+            set {
+                bitmapImage = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BitmapImage"));
+            } } 
 
+        public ChessPiece(BitmapImage bitmapImage)
+        {
+            this.BitmapImage = bitmapImage;
+        }
 
         public ChessPiece(Pieces piece, PieceColor color)
         {
             this.Piece = piece;
             this.Color = color;
         }
+
+        public ChessPiece(Pieces piece, PieceColor color, BitmapImage bitmapImage) : this(piece, color)
+        {
+            this.BitmapImage = bitmapImage;
+        }
+
+        
 
         //Light is Uppercase
         public override string ToString()

@@ -22,31 +22,24 @@ namespace ChessDisplay
     /// <summary>
     /// Interaction logic for ChessBoardControl.xaml
     /// </summary>
-    public partial class ChessBoardControl : UserControl, INotifyPropertyChanged
+    public partial class ChessBoardControl : UserControl
     {
         private Board board;
 
         private ChessPieces pieces = new ChessPieces();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Board Board {
+        public event PropertyChangedEventHandler PropertyChanged;        public Board Board {
             get { return board; }
             set { board = value; }
         }
-
 
         public ChessBoardControl()
         {
             InitializeComponent();
         }
 
-        public void loadedChessBoard(Object sender, RoutedEventArgs e) {
-            MakeBoardCheckered();
-            ViewBoardPieces();
-        }
 
-        public void ViewBoardPieces() {
+        }        public void ViewBoardPieces() {
             ChessPiece pieceHolder;
             for (int y = 0; y < 8; y++)
             {
@@ -78,17 +71,14 @@ namespace ChessDisplay
             ImageSource iconSource = iconDecoder.Frames[0];
             image.Source = iconSource;
             return image;
-        }
-
-        public void MakeBoardCheckered() {
-            ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
+        } public void MakeBoardCheckered() {            ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
             RowDefinition[] rowDefinitions = BoardDisplay.RowDefinitions.ToArray();
             for (int column = 0; column < columnDefinitions.Length; column++)
             {
                 int alternation = column % 2;
                 for (int row = 0; row < rowDefinitions.Length; row++)
                 {
-                    if (row % 2 == alternation)
+                    if (row % 2 != alternation)
                     {
                         BoardDisplay.Children.Add(AddBoardRectangle(row, column));
                     }

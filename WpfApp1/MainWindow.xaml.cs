@@ -3,16 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Threading.Tasks;using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1;
 
 namespace ChessDisplay
 {
@@ -21,11 +16,42 @@ namespace ChessDisplay
     /// </summary>
     public partial class MainWindow : Window
     {
+        Board board;
 
         public MainWindow()
         {
             InitializeComponent();
-            chessBoard.Board = new Board();
+            board = new Board();
+            SetUpBoard();        }
+
+        private void SetUpBoard()
+        {
+            ChessSquare chessSquare;
+            
+            bool grey = false;
+            for (int column = 0; column < 8; column++)
+            {
+                for (int row = 0; row < 8; row++)
+                {
+                    chessSquare = new ChessSquare(grey);
+                    chessSquare.SetValue(Grid.ColumnProperty, column);
+                    chessSquare.SetValue(Grid.RowProperty, row);
+                    chessSquare.MouseDown += ChessBoard_MouseDown;
+                    chessSquare.SetPicture(board[column, row]);
+
+                    ChessBoard.Children.Add(chessSquare);
+                    grey = !grey;
+    }
+                grey = !grey;
+}
+            
         }
+
+        private void ChessBoard_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        { 
+            ChessSquare chessSquare = sender as ChessSquare;
+            MessageBox.Show($"Column:{chessSquare?.GetValue(Grid.ColumnProperty)}\nRow:{chessSquare?.GetValue(Grid.RowProperty)}");
+        }
+
     }
 }
