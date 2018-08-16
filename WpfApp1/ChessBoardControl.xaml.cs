@@ -39,7 +39,7 @@ namespace ChessDisplay
         }
 
 
-        }        public void ViewBoardPieces() {
+        public void ViewBoardPieces() {
             ChessPiece pieceHolder;
             for (int y = 0; y < 8; y++)
             {
@@ -71,7 +71,9 @@ namespace ChessDisplay
             ImageSource iconSource = iconDecoder.Frames[0];
             image.Source = iconSource;
             return image;
-        } public void MakeBoardCheckered() {            ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
+        }
+        public void MakeBoardCheckered(object sender, RoutedEventArgs e) {
+            ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
             RowDefinition[] rowDefinitions = BoardDisplay.RowDefinitions.ToArray();
             for (int column = 0; column < columnDefinitions.Length; column++)
             {
