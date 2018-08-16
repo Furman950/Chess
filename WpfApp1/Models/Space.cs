@@ -17,14 +17,18 @@ namespace WpfApp1.Models {
             set {
                 chessPiece = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ChessPiece"));
-                Image = chessPiece.BitmapImage;
+                if (chessPiece == null) {
+                    Image = null;
+                } else {
+                    Image = chessPiece?.BitmapImage;
+                }
             }
         }
 
         private BitmapImage image;
         public BitmapImage Image {
             get {
-                if (ChessPiece == null) {
+                if (image == null) {
                     return transparent;
                 } else {
                     return image;
