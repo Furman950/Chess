@@ -60,6 +60,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ChessSquare.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,6 +74,9 @@
     </Compile>
     <Compile Include="ChessBoardControl.xaml.cs">
       <DependentUpon>ChessBoardControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChessSquare.xaml.cs">
+      <DependentUpon>ChessSquare.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -106,19 +113,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\BishopD.png" />
-    <Resource Include="Resources\BishopL.png" />
-    <Resource Include="Resources\KingD.png" />
-    <Resource Include="Resources\KingL.png" />
-    <Resource Include="Resources\KnightD.png" />
-    <Resource Include="Resources\KnightL.png" />
-    <Resource Include="Resources\pawnD.png" />
-    <Resource Include="Resources\pawnL.png" />
-    <Resource Include="Resources\QueenD.png" />
-    <Resource Include="Resources\QueenL.png" />
-    <Resource Include="Resources\RookD.png" />
-    <Resource Include="Resources\RookL.png" />
+    <Resource Include="Resources\B_D.png" />
+    <Resource Include="Resources\B_L.png" />
+    <Resource Include="Resources\K_D.png" />
+    <Resource Include="Resources\K_L.png" />
+    <Resource Include="Resources\N_D.png" />
+    <Resource Include="Resources\N_L.png" />
+    <Resource Include="Resources\P_D.png" />
+    <Resource Include="Resources\P_L.png" />
+    <Resource Include="Resources\Q_D.png" />
+    <Resource Include="Resources\Q_L.png" />
+    <Resource Include="Resources\R_D.png" />
+    <Resource Include="Resources\R_L.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

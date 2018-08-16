@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace File_IO.Models
 {
@@ -21,12 +19,17 @@ namespace File_IO.Models
         public Pieces Piece{ get; set; }
 
         public PieceColor Color { get; set; }
-
+        public BitmapImage BitmapImage { get; set; } = new BitmapImage();
 
         public ChessPiece(Pieces piece, PieceColor color)
         {
             this.Piece = piece;
             this.Color = color;
+        }
+
+        public ChessPiece(Pieces piece, PieceColor color, BitmapImage bitmapImage) : this(piece, color)
+        {
+            this.BitmapImage = bitmapImage;
         }
 
         //Light is Uppercase
