@@ -17,6 +17,8 @@ namespace ChessDisplay
     public partial class MainWindow : Window
     {
         Board board;
+        bool firstClick = true;
+        int pieceX, pieceY;
 
         public MainWindow()
         {
@@ -50,8 +52,23 @@ namespace ChessDisplay
         private void ChessBoard_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         { 
             ChessSquare chessSquare = sender as ChessSquare;
-            MessageBox.Show($"Column:{chessSquare?.GetValue(Grid.ColumnProperty)}\nRow:{chessSquare?.GetValue(Grid.RowProperty)}");
-        }
+            if (firstClick)
+            {
+                int.TryParse(chessSquare.GetValue(Grid.ColumnProperty).ToString(), out int locX);
+                int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int locY);
+                pieceX = locX;
+                pieceY = locY;
 
+                firstClick = false;
+            }
+            else
+            {
+                int.TryParse(chessSquare.GetValue(Grid.ColumnProperty).ToString(), out int toX);
+                int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int toY);
+                board.Move(pieceX, pieceY, toX, toY);
+
+                firstClick = true;
+            }
+        }
     }
 }

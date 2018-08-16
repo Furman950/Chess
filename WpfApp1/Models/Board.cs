@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using WpfApp1.Models;
 
 namespace File_IO.Models {
+
     public class Board {
         private Space[][] board;
         private PieceColor lastColor = PieceColor.D;

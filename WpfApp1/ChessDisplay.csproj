@@ -75,6 +75,7 @@
     <Compile Include="ChessBoardControl.xaml.cs">
       <DependentUpon>ChessBoardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChessPieceToImageConverter.cs" />
     <Compile Include="ChessSquare.xaml.cs">
       <DependentUpon>ChessSquare.xaml</DependentUpon>
     </Compile>
