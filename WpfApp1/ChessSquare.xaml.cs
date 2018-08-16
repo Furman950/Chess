@@ -1,5 +1,8 @@
-﻿using System;
+﻿using File_IO.Models;
+using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -10,6 +13,7 @@ namespace WpfApp1
     /// </summary>
     public partial class ChessSquare : UserControl
     {
+        Binding b;
         public ChessSquare(bool grey)
         {
             InitializeComponent();
@@ -20,9 +24,15 @@ namespace WpfApp1
                 Square.Background = new SolidColorBrush(Colors.White);
         }
 
-        public void SetPicture(BitmapImage image)
+        public void SetPicture(ChessPiece piece)
         {
-            ChessPieceImage.Source = image;
+            b = new Binding
+            {
+                Source = piece,
+                Path = new PropertyPath("BitmapImage")
+            };
+
+            ChessPieceImage.SetBinding(Image.SourceProperty, b);
         }
     }
 }

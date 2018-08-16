@@ -20,34 +20,47 @@ namespace File_IO.Models {
 
         private void SetUpBoard()
         {
-            //Light
-            this[7, 0] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_L.png", UriKind.Relative)));
-            this[7, 1] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/K_L.png", UriKind.Relative)));
-            this[7, 2] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_L.png", UriKind.Relative)));
-            this[7, 3] = new ChessPiece(Pieces.Q, PieceColor.L, new BitmapImage(new Uri("../Resources/Q_L.png", UriKind.Relative)));
-            this[7, 4] = new ChessPiece(Pieces.K, PieceColor.L, new BitmapImage(new Uri("../Resources/K_L.png", UriKind.Relative)));
-            this[7, 5] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_L.png", UriKind.Relative)));
-            this[7, 6] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/K_L.png", UriKind.Relative)));
+            BitmapImage pawnL = new BitmapImage(new Uri("../Resources/P_L.png", UriKind.Relative));
+            BitmapImage pawnD = new BitmapImage(new Uri("../Resources/P_D.png", UriKind.Relative));
+            BitmapImage transparent = new BitmapImage(new Uri("../Resoures/Tranparent.png", UriKind.Relative));
+
+            //Dark
+            this[0, 0] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
+            this[1, 0] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/N_D.png", UriKind.Relative)));
+            this[2, 0] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
+            this[3, 0] = new ChessPiece(Pieces.Q, PieceColor.L, new BitmapImage(new Uri("../Resources/Q_D.png", UriKind.Relative)));
+            this[4, 0] = new ChessPiece(Pieces.K, PieceColor.L, new BitmapImage(new Uri("../Resources/K_D.png", UriKind.Relative)));
+            this[5, 0] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
+            this[6, 0] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/N_D.png", UriKind.Relative)));
+            this[7, 0] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
+
+            for (int i = 0; i < 8; i++)
+            {
+                this[i, 1] = new ChessPiece(Pieces.P, PieceColor.L, pawnD);
+            }
+
+            //Transpernt image
+            for (int row = 2; row < 6; row++)
+            {
+                for (int column = 0; column < 8; column++)
+                {
+                    this[column, row] = new ChessPiece(transparent);
+                }
+            }
+
+            ////Light
+            this[0, 7] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_L.png", UriKind.Relative)));
+            this[1, 7] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/N_L.png", UriKind.Relative)));
+            this[2, 7] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_L.png", UriKind.Relative)));
+            this[3, 7] = new ChessPiece(Pieces.Q, PieceColor.L, new BitmapImage(new Uri("../Resources/Q_L.png", UriKind.Relative)));
+            this[4, 7] = new ChessPiece(Pieces.K, PieceColor.L, new BitmapImage(new Uri("../Resources/K_L.png", UriKind.Relative)));
+            this[5, 7] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_L.png", UriKind.Relative)));
+            this[6, 7] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/N_L.png", UriKind.Relative)));
             this[7, 7] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_L.png", UriKind.Relative)));
 
             for (int i = 0; i < 8; i++)
             {
-                this[6, i] = new ChessPiece(Pieces.P, PieceColor.L, new BitmapImage(new Uri("../Resources/P_L.png", UriKind.Relative)));
-            }
-
-            //Dark
-            this[0, 0] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
-            this[0, 1] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/K_D.png", UriKind.Relative)));
-            this[0, 2] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
-            this[0, 3] = new ChessPiece(Pieces.Q, PieceColor.L, new BitmapImage(new Uri("../Resources/Q_D.png", UriKind.Relative)));
-            this[0, 4] = new ChessPiece(Pieces.K, PieceColor.L, new BitmapImage(new Uri("../Resources/K_D.png", UriKind.Relative)));
-            this[0, 5] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
-            this[0, 6] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/K_D.png", UriKind.Relative)));
-            this[0, 7] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
-
-            for (int i = 0; i < 8; i++)
-            {
-                this[1, i] = new ChessPiece(Pieces.P, PieceColor.L, new BitmapImage(new Uri("../Resources/P_D.png", UriKind.Relative)));
+                this[i, 6] = new ChessPiece(Pieces.P, PieceColor.L, pawnL);
             }
         }
 
