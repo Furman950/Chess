@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,7 +26,9 @@ namespace ChessDisplay
     {
         private Board board;
 
-        public Board Board {
+        private ChessPieces pieces = new ChessPieces();
+
+        public event PropertyChangedEventHandler PropertyChanged;        public Board Board {
             get { return board; }
             set { board = value; }
         }
@@ -35,6 +39,39 @@ namespace ChessDisplay
         }
 
 
+        public void ViewBoardPieces() {
+            ChessPiece pieceHolder;
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    pieceHolder = Board.GetPiece(x, y);
+                    if (pieceHolder != null) {
+                        PlacePiece(x, y, pieceHolder);
+                    }
+                }
+            }
+        }
+
+        public void PlacePiece(int x, int y, ChessPiece pieceHolder) {
+
+            Image piece = GetPieceImage(pieceHolder);
+            piece.SetValue(Grid.RowProperty, y);
+            piece.SetValue(Grid.ColumnProperty, x);
+        }
+
+        public Image GetPieceImage(ChessPiece pieceHolder) {
+            Image image = new Image();
+            string name = "";
+            pieces.ChessPiece.TryGetValue(pieceHolder.Piece.ToString(), out name);
+            string imageName = "../../Resources" + name + pieceHolder.Color.ToString() + ".png";
+            Assembly asm = Assembly.GetExecutingAssembly();
+            Stream iconStream = asm.GetManifestResourceStream(imageName);
+            PngBitmapDecoder iconDecoder = new PngBitmapDecoder(iconStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+            ImageSource iconSource = iconDecoder.Frames[0];
+            image.Source = iconSource;
+            return image;
+        }
         public void MakeBoardCheckered(object sender, RoutedEventArgs e) {
             ColumnDefinition[] columnDefinitions = BoardDisplay.ColumnDefinitions.ToArray();
             RowDefinition[] rowDefinitions = BoardDisplay.RowDefinitions.ToArray();

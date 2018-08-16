@@ -1,5 +1,9 @@
 ﻿using File_IO.Models;
-using System.Windows;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -20,8 +24,7 @@ namespace ChessDisplay
         {
             InitializeComponent();
             board = new Board();
-            SetUpBoard();
-        }
+            SetUpBoard();        }
 
         private void SetUpBoard()
         {
@@ -36,13 +39,13 @@ namespace ChessDisplay
                     chessSquare.SetValue(Grid.ColumnProperty, column);
                     chessSquare.SetValue(Grid.RowProperty, row);
                     chessSquare.MouseDown += ChessBoard_MouseDown;
-                    chessSquare.SetPicture(board[column, row]);
+                    chessSquare.SetPicture(board.GetSpace(column, row));
 
                     ChessBoard.Children.Add(chessSquare);
                     grey = !grey;
-                }
+    }
                 grey = !grey;
-            }
+}
             
         }
 
