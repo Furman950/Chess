@@ -80,6 +80,7 @@ namespace File_IO.Models {
             {
                 this[i, 6] = new ChessPiece(Pieces.P, PieceColor.L, pawnL);
             }
+
         }
 
         public void SetPiece(int x, int y, ChessPiece piece) {

@@ -56,10 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ChessBoardControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ChessSquare.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -72,13 +68,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ChessBoardControl.xaml.cs">
-      <DependentUpon>ChessBoardControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ChessPieceToImageConverter.cs" />
     <Compile Include="ChessSquare.xaml.cs">
       <DependentUpon>ChessSquare.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ChessPieceToTurn.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

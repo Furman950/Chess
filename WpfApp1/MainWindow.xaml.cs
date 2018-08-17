@@ -29,6 +29,7 @@ namespace ChessDisplay
             InitializeComponent();
             board = new Board();
             SetUpBoard();
+            lblTurn.DataContext = board;
         }
 
         private void SetUpBoard()
