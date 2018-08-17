@@ -33,18 +33,18 @@ namespace File_IO.Models {
             BitmapImage transparent = new BitmapImage(new Uri("../Resoures/Tranparent.png", UriKind.Relative));
 
             //Dark
-            this[0, 0] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
-            this[1, 0] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/N_D.png", UriKind.Relative)));
-            this[2, 0] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
-            this[3, 0] = new ChessPiece(Pieces.Q, PieceColor.L, new BitmapImage(new Uri("../Resources/Q_D.png", UriKind.Relative)));
-            this[4, 0] = new ChessPiece(Pieces.K, PieceColor.L, new BitmapImage(new Uri("../Resources/K_D.png", UriKind.Relative)));
-            this[5, 0] = new ChessPiece(Pieces.B, PieceColor.L, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
-            this[6, 0] = new ChessPiece(Pieces.N, PieceColor.L, new BitmapImage(new Uri("../Resources/N_D.png", UriKind.Relative)));
-            this[7, 0] = new ChessPiece(Pieces.R, PieceColor.L, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
+            this[0, 0] = new ChessPiece(Pieces.R, PieceColor.D, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
+            this[1, 0] = new ChessPiece(Pieces.N, PieceColor.D, new BitmapImage(new Uri("../Resources/N_D.png", UriKind.Relative)));
+            this[2, 0] = new ChessPiece(Pieces.B, PieceColor.D, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
+            this[3, 0] = new ChessPiece(Pieces.Q, PieceColor.D, new BitmapImage(new Uri("../Resources/Q_D.png", UriKind.Relative)));
+            this[4, 0] = new ChessPiece(Pieces.K, PieceColor.D, new BitmapImage(new Uri("../Resources/K_D.png", UriKind.Relative)));
+            this[5, 0] = new ChessPiece(Pieces.B, PieceColor.D, new BitmapImage(new Uri("../Resources/B_D.png", UriKind.Relative)));
+            this[6, 0] = new ChessPiece(Pieces.N, PieceColor.D, new BitmapImage(new Uri("../Resources/N_D.png", UriKind.Relative)));
+            this[7, 0] = new ChessPiece(Pieces.R, PieceColor.D, new BitmapImage(new Uri("../Resources/R_D.png", UriKind.Relative)));
 
             for (int i = 0; i < 8; i++)
             {
-                this[i, 1] = new ChessPiece(Pieces.P, PieceColor.L, pawnD);
+                this[i, 1] = new ChessPiece(Pieces.P, PieceColor.D, pawnD);
             }
 
             ////Transpernt image
@@ -222,12 +222,12 @@ namespace File_IO.Models {
         private bool MovePawn(int locationX, int locationY, int toX, int toY) {
             ChessPiece movingPiece = this[locationX, locationY];
             int colorCoefficient = 1;
-            if (movingPiece.Color == PieceColor.D) {
+            if (movingPiece.Color == PieceColor.L) {
                 colorCoefficient = -1;
             }
             if (locationX == toX) {
                 //Two-space movement check
-                if ((locationY == 0 || locationY == 6) && toY - locationY == 2 * colorCoefficient) {
+                if ((locationY == 1 || locationY == 6) && toY - locationY == 2 * colorCoefficient) {
                     if (this[locationX, locationY + colorCoefficient] == null &&
                         this[locationX, locationY + colorCoefficient * 2] == null) {
                         return true;
@@ -238,7 +238,7 @@ namespace File_IO.Models {
                     }
                 }
             } else if (Math.Abs(toX - locationX) == 1 && toY - locationY == colorCoefficient) {     //Capture check
-                if (this[locationX, locationY + colorCoefficient] != null) {
+                if (this[toX, toY] != null) {
                     return true;
                 }
             }
@@ -316,7 +316,7 @@ namespace File_IO.Models {
                 } else {
                     return false;
                 }
-            } else if ((locationX != toX && locationY != toY) ||
+            } else if ((locationX != toX && locationY != toY) &&
                 Math.Abs(locationX - toX) != Math.Abs(locationY - toY)) {
                 return false;
             } else if (this[locationX, locationY] == null || this[locationX, locationY] == startPiece) {
