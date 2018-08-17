@@ -11,9 +11,19 @@ using WpfApp1.Models;
 
 namespace File_IO.Models {
 
-    public class Board {
+    public class Board : INotifyPropertyChanged {
         private Space[][] board;
-        private PieceColor lastColor = PieceColor.D;
+        private PieceColor currentTurn = PieceColor.L;
+        public PieceColor CurrentTurn {
+            get { return currentTurn; }
+            set {
+                currentTurn = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentTurn"));
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Board() {
             board = new Space[8][];
@@ -141,8 +151,9 @@ namespace File_IO.Models {
         }
 
         public Board Clone() {
+            var turn = CurrentTurn;
             Board newBoard = new Board() {
-                lastColor = this.lastColor
+                currentTurn = turn
             };
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
@@ -157,7 +168,7 @@ namespace File_IO.Models {
                     this[x, y] = otherBoard[x, y];
                 }
             }
-            lastColor = otherBoard.lastColor;
+            CurrentTurn = otherBoard.CurrentTurn;
         }
 
         public override string ToString() {
@@ -179,13 +190,13 @@ namespace File_IO.Models {
 
         public bool Move(int locationX, int locationY, int toX, int toY) {
             ChessPiece movingPiece = this[locationX, locationY];
-            if (CheckMove(locationX, locationY, toX, toY) && movingPiece.Color != lastColor) {
+            if (CheckMove(locationX, locationY, toX, toY) && movingPiece.Color == CurrentTurn) {
                 Board boardClone = Clone();
                 boardClone[locationX, locationY] = null;
                 boardClone[toX, toY] = movingPiece;
                 if (!boardClone.Check(movingPiece.Color)) {
                     Copy(boardClone);
-                    lastColor = movingPiece.Color;
+                    CurrentTurn = CurrentTurn == PieceColor.L ? PieceColor.D : PieceColor.L;
                     return true;
                 }
             }
