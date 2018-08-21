@@ -16,20 +16,38 @@ namespace WpfApp1
     {
         Binding b;
         bool isGray;
-        bool selected;
+        bool selected = false;
+        bool isPossibleMove = false;
+
+        SolidColorBrush gray;
+        SolidColorBrush white;
+        SolidColorBrush green;
+        SolidColorBrush blue;
+
+        public bool IsPossibleMove { get => isPossibleMove; set => isPossibleMove = value; }
+
         public ChessSquare(bool gray)
         {
             InitializeComponent();
             isGray = gray;
+            SetUpColors();
             SetBackground();
+        }
+
+        private void SetUpColors()
+        {
+            gray = new SolidColorBrush(Colors.Gray);
+            white = new SolidColorBrush(Colors.White);
+            green = new SolidColorBrush(Colors.Green);
+            blue = new SolidColorBrush(Colors.DodgerBlue);
         }
 
         public void SetBackground()
         {
             if (isGray)
-                Square.Background = new SolidColorBrush(Colors.Gray);
+                Square.Background = gray;
             else
-                Square.Background = new SolidColorBrush(Colors.White);
+                Square.Background = white;
         }
 
         public void SetPicture(Space space)
@@ -44,12 +62,12 @@ namespace WpfApp1
 
         private void HighLightSquare(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Square.Background = new SolidColorBrush(Colors.DodgerBlue);
+            Square.Background = blue;
         }
 
         public void SelectPiece()
         {
-            Square.Background = new SolidColorBrush(Colors.DodgerBlue);
+            Square.Background = blue;
             selected = true;
         }
 
@@ -65,11 +83,15 @@ namespace WpfApp1
             {
                 SetBackground();
             }
+
+            if (IsPossibleMove)
+                Square.Background = green;
         }
 
         internal void PossibleMove()
         {
-            Square.Background = new SolidColorBrush(Colors.Green);
+            Square.Background = green;
+            IsPossibleMove = true;
         }
     }
 }

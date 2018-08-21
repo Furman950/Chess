@@ -81,6 +81,7 @@ namespace ChessDisplay
                 board.Move(pieceX, pieceY, toX, toY);
                 selectedSquare.DeselectPiece();
                 ResetBoard();
+                
 
                 firstClick = true;
             }
@@ -90,6 +91,7 @@ namespace ChessDisplay
         {
             foreach(var move in moveList)
             {
+                chessSquareBoard[move[1], move[0]].IsPossibleMove = false;
                 chessSquareBoard[move[1], move[0]].SetBackground();
             }
         }
