@@ -250,7 +250,7 @@ namespace File_IO.Models {
                     }
                 }
             } else if (Math.Abs(toX - locationX) == 1 && toY - locationY == colorCoefficient) {     //Capture check
-                if (this[toX, toY] != null) {
+                if (this[toX, toY] != null && this[toX, toY].Color != movingPiece.Color) {
                     return true;
                 }
             }
