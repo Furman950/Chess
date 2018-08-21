@@ -107,6 +107,8 @@ namespace File_IO.Models {
         public bool Check(PieceColor kingColor) {
             int kingX = 0;
             int kingY = 0;
+            
+            //Find the king's position
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
                     if (this[x, y] != null && this[x, y].Piece == Pieces.K && this[x, y].Color == kingColor) {
@@ -115,6 +117,8 @@ namespace File_IO.Models {
                     }
                 }
             }
+
+            //Use any piece from the other color to try and attack the king
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
                     if (this[x, y] != null && this[x, y].Color != kingColor) {
