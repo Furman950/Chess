@@ -96,6 +96,7 @@ namespace File_IO.Models {
             }
         }
 
+        //Returns true if the king specified by kingColor is currently in check
         public bool Check(PieceColor kingColor) {
             int kingX = 0;
             int kingY = 0;
@@ -114,7 +115,7 @@ namespace File_IO.Models {
             for (int y = 0; y < board.Length; y++) {
                 for (int x = 0; x < board[y].Length; x++) {
                     if (this[x, y] != null && this[x, y].Color != kingColor) {
-                        if (CheckMove(x, y, kingX, kingY)) {
+                        if (CheckMoveNoCheck(x, y, kingX, kingY)) {
                             return true;
                         }
                     }
@@ -188,18 +189,49 @@ namespace File_IO.Models {
         public bool Move(int locationX, int locationY, int toX, int toY) {
             ChessPiece movingPiece = this[locationX, locationY];
             if (CheckMove(locationX, locationY, toX, toY) && movingPiece.Color == CurrentTurn) {
-                Board boardClone = Clone();
-                boardClone[locationX, locationY] = null;
-                boardClone[toX, toY] = movingPiece;
-                if (!boardClone.Check(movingPiece.Color)) {
-                    Copy(boardClone);
-                    CurrentTurn = CurrentTurn == PieceColor.L ? PieceColor.D : PieceColor.L;
-                    return true;
-                }
+                this[locationX, locationY] = null;
+                this[toX, toY] = movingPiece;
+                CurrentTurn = CurrentTurn == PieceColor.L ? PieceColor.D : PieceColor.L;
+                return true;
             }
             return false;
         }
         private bool CheckMove(int locationX, int locationY, int toX, int toY) {
+            ChessPiece movingPiece = this[locationX, locationY];
+            bool result = false;
+            if (movingPiece != null) {
+                switch (movingPiece.Piece) {
+                    case Pieces.K:
+                        result = MoveKing(locationX, locationY, toX, toY);
+                        break;
+                    case Pieces.Q:
+                        result = MoveQueen(locationX, locationY, toX, toY);
+                        break;
+                    case Pieces.B:
+                        result = MoveBishop(locationX, locationY, toX, toY);
+                        break;
+                    case Pieces.N:
+                        result = MoveKnight(locationX, locationY, toX, toY);
+                        break;
+                    case Pieces.R:
+                        result = MoveRook(locationX, locationY, toX, toY);
+                        break;
+                    case Pieces.P:
+                        result = MovePawn(locationX, locationY, toX, toY);
+                        break;
+                }
+                if (result) {
+                    Board boardClone = Clone();
+                    boardClone[locationX, locationY] = null;
+                    boardClone[toX, toY] = movingPiece;
+                    if (!boardClone.Check(movingPiece.Color)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        private bool CheckMoveNoCheck(int locationX, int locationY, int toX, int toY) {
             ChessPiece movingPiece = this[locationX, locationY];
             bool result = false;
             if (movingPiece != null) {
