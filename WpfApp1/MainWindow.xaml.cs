@@ -63,7 +63,9 @@ namespace ChessDisplay
         private void ChessBoard_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ChessSquare chessSquare = sender as ChessSquare;
-            if (firstClick)
+            
+            if (firstClick &&
+                (board.CurrentTurn == board[(int)chessSquare.GetValue(Grid.ColumnProperty), (int)chessSquare.GetValue(Grid.RowProperty)].Color))
             {
                 selectedSquare = chessSquare;
                 int.TryParse(chessSquare.GetValue(Grid.ColumnProperty).ToString(), out int locX);
@@ -82,29 +84,28 @@ namespace ChessDisplay
                 int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int toY);
                 if (board.Move(pieceX, pieceY, toX, toY))
                 {
-                    chessSquareBoard[kingY, kingX].InCheck = false;
+                    if (chessSquareBoard[kingY, kingX].InCheck)
+                        chessSquareBoard[kingY, kingX].InCheck = false;
                 }
-                selectedSquare.DeselectPiece();
-
-                if (lightTurn)
-                {
-                    if (board.Check(PieceColor.D))
-                        KingInCheck(PieceColor.D);
-
-                    lightTurn = false;
-                }
-                else 
-                {
-                    if (board.Check(PieceColor.L))
-                        KingInCheck(PieceColor.L);
-
-                    lightTurn = true;
-                }
-                    
-
+                selectedSquare?.DeselectPiece();
                 firstClick = true;
 
                 ResetBoard();
+            }
+
+            if (lightTurn)
+            {
+                if (board.Check(PieceColor.D))
+                    KingInCheck(PieceColor.D);
+
+                lightTurn = false;
+            }
+            else
+            {
+                if (board.Check(PieceColor.L))
+                    KingInCheck(PieceColor.L);
+
+                lightTurn = true;
             }
         }
 
@@ -127,12 +128,14 @@ namespace ChessDisplay
 
         private void ResetBoard()
         {
-            foreach(var move in moveList)
+            if (moveList != null)
             {
-                chessSquareBoard[move[1], move[0]].IsPossibleMove = false;
-                chessSquareBoard[move[1], move[0]].SetBackground();
+                foreach (var move in moveList)
+                {
+                    chessSquareBoard[move[1], move[0]].IsPossibleMove = false;
+                    chessSquareBoard[move[1], move[0]].SetBackground();
+                }
             }
-            
         }
 
         private void HighLightMoves(int x, int y)
