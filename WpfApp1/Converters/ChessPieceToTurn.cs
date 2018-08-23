@@ -1,9 +1,9 @@
-﻿using File_IO.Models;
+﻿using ChessDisplay.Models;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace WpfApp1.Converters
+namespace ChessDisplay.Converters
 {
     class ChessPieceToTurn : IValueConverter
     {
