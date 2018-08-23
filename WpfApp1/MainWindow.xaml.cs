@@ -64,19 +64,22 @@ namespace ChessDisplay
         {
             ChessSquare chessSquare = sender as ChessSquare;
             
-            if (firstClick &&
-                (board.CurrentTurn == board[(int)chessSquare.GetValue(Grid.ColumnProperty), (int)chessSquare.GetValue(Grid.RowProperty)].Color))
+            if (firstClick)
             {
-                selectedSquare = chessSquare;
-                int.TryParse(chessSquare.GetValue(Grid.ColumnProperty).ToString(), out int locX);
-                int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int locY);
-                pieceX = locX;
-                pieceY = locY;
-                chessSquare.SelectPiece();
+                if ((board.CurrentTurn == board[(int)chessSquare.GetValue(Grid.ColumnProperty), (int)chessSquare.GetValue(Grid.RowProperty)]?.Color))
+                {
+                    selectedSquare = chessSquare;
+                    int.TryParse(chessSquare.GetValue(Grid.ColumnProperty).ToString(), out int locX);
+                    int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int locY);
+                    pieceX = locX;
+                    pieceY = locY;
+                    chessSquare.SelectPiece();
 
-                firstClick = false;
+                    firstClick = false;
 
-                HighLightMoves(pieceX, pieceY);
+                    HighLightMoves(pieceX, pieceY);
+                }
+
             }
             else
             {
