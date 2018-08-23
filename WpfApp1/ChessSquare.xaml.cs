@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WpfApp1.Models;
@@ -23,8 +24,10 @@ namespace WpfApp1
         SolidColorBrush white;
         SolidColorBrush green;
         SolidColorBrush blue;
+        SolidColorBrush red;
 
         public bool IsPossibleMove { get => isPossibleMove; set => isPossibleMove = value; }
+        public bool InCheck { get; set; }
 
         public ChessSquare(bool gray)
         {
@@ -40,6 +43,7 @@ namespace WpfApp1
             white = new SolidColorBrush(Colors.White);
             green = new SolidColorBrush(Colors.Green);
             blue = new SolidColorBrush(Colors.DodgerBlue);
+            red = new SolidColorBrush(Colors.Red);
         }
 
         public void SetBackground()
@@ -60,7 +64,7 @@ namespace WpfApp1
             ChessPieceImage.SetBinding(Image.SourceProperty, b);
         }
 
-        private void HighLightSquare(object sender, System.Windows.Input.MouseEventArgs e)
+        private void HighLightSquare(object sender, MouseEventArgs e)
         {
             Square.Background = blue;
         }
@@ -77,21 +81,31 @@ namespace WpfApp1
             SetBackground();
         }
 
-        private void UnHightLightSquare(object sender, System.Windows.Input.MouseEventArgs e)
+        private void UnHightLightSquare(object sender, MouseEventArgs e)
         {
             if (!selected)
-            {
                 SetBackground();
-            }
 
             if (IsPossibleMove)
                 Square.Background = green;
+
+            if (InCheck)
+            {
+                Square.Background = red;
+            }
+
         }
 
         internal void PossibleMove()
         {
             Square.Background = green;
             IsPossibleMove = true;
+        }
+
+        internal void Check()
+        {
+            Square.Background = red;
+            InCheck = true;
         }
     }
 }

@@ -19,10 +19,12 @@ namespace ChessDisplay
     {
         Board board;
         bool firstClick = true;
+        bool lightTurn = true;
         int pieceX, pieceY;
         ChessSquare selectedSquare;
         ChessSquare[,] chessSquareBoard = new ChessSquare[8, 8];
         List<int[]> moveList;
+        int kingX, kingY;
 
         public MainWindow()
         {
@@ -78,12 +80,48 @@ namespace ChessDisplay
             {
                 int.TryParse(chessSquare.GetValue(Grid.ColumnProperty).ToString(), out int toX);
                 int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int toY);
-                board.Move(pieceX, pieceY, toX, toY);
+                if (board.Move(pieceX, pieceY, toX, toY))
+                {
+                    chessSquareBoard[kingY, kingX].InCheck = false;
+                }
                 selectedSquare.DeselectPiece();
-                ResetBoard();
-                
+
+                if (lightTurn)
+                {
+                    if (board.Check(PieceColor.D))
+                        KingInCheck(PieceColor.D);
+
+                    lightTurn = false;
+                }
+                else 
+                {
+                    if (board.Check(PieceColor.L))
+                        KingInCheck(PieceColor.L);
+
+                    lightTurn = true;
+                }
+                    
 
                 firstClick = true;
+
+                ResetBoard();
+            }
+        }
+
+        private void KingInCheck(PieceColor color)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    if (board.GetPiece(x, y)?.Piece == Pieces.K &&
+                        board.GetPiece(x, y)?.Color == color)
+                    {
+                        chessSquareBoard[y, x].Check();
+                        kingX = x;
+                        kingY = y;
+                    }
+                }
             }
         }
 
@@ -94,6 +132,7 @@ namespace ChessDisplay
                 chessSquareBoard[move[1], move[0]].IsPossibleMove = false;
                 chessSquareBoard[move[1], move[0]].SetBackground();
             }
+            
         }
 
         private void HighLightMoves(int x, int y)
