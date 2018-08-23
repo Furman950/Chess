@@ -1,4 +1,4 @@
-﻿using File_IO.Models;
+﻿using ChessDisplay.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace WpfApp1.Models {
+namespace ChessDisplay.Models {
     public class Space : INotifyPropertyChanged {
         static BitmapImage transparent = new BitmapImage(new Uri("../Resoures/Tranparent.png", UriKind.Relative));
 

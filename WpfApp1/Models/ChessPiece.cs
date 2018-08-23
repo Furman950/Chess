@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-namespace File_IO.Models
+namespace ChessDisplay.Models
 {
 
     public enum Pieces

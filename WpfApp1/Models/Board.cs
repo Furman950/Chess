@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using WpfApp1.Models;
+using ChessDisplay.Models;
 
-namespace File_IO.Models {
+namespace ChessDisplay.Models {
 
     public class Board : INotifyPropertyChanged {
         private Space[][] board;
