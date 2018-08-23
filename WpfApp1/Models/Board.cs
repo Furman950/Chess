@@ -130,14 +130,8 @@ namespace File_IO.Models {
                 for (int startY = 0; startY < board.Length; startY++) {
                     for (int startX = 0; startX < board[startY].Length; startX++) {
                         if (this[startX, startY] != null && this[startX, startY].Color == kingColor) {
-                            for (int toY = 0; toY < board.Length; toY++) {
-                                for (int toX = 0; toX < board[toY].Length; toX++) {
-                                    Board boardClone = this.Clone();
-                                    if (boardClone.Move(startX, startY, toX, toY) &&
-                                        !boardClone.Check(kingColor)) {
-                                        return false;
-                                    }
-                                }
+                            if (GetPossibleMoves(startX, startY).Count > 0) {
+                                return false;
                             }
                         }
                     }
