@@ -15,42 +15,58 @@ namespace ChessDisplay
     public partial class ChessSquare : UserControl
     {
         Binding b;
-        bool isGray;
-        bool selected = false;
-        bool isPossibleMove = false;
 
-        SolidColorBrush gray;
-        SolidColorBrush white;
-        SolidColorBrush green;
-        SolidColorBrush blue;
-        SolidColorBrush red;
+        SolidColorBrush gray = Brushes.Gray;
+        SolidColorBrush white = Brushes.White;
+        SolidColorBrush green = Brushes.Green;
+        SolidColorBrush blue = Brushes.DodgerBlue;
+        SolidColorBrush red = Brushes.Red;
 
-        public bool IsPossibleMove { get => isPossibleMove; set => isPossibleMove = value; }
-        public bool InCheck { get; set; }
+        private bool isGray = false;
+        private bool isClicked = false;
+        private bool isPossible = false;
+        private bool isChecked = false;
+        private bool isHighlighted = false;
+        public bool IsGray {
+            get { return isGray; }
+            set {
+                isGray = value;
+                UpdateColor();
+            }
+        }
+        public bool IsClicked {
+            get { return isClicked; }
+            set {
+                isClicked = value;
+                UpdateColor();
+            }
+        }
+        public bool IsPossible {
+            get { return isPossible; }
+            set {
+                isPossible = value;
+                UpdateColor();
+            }
+        }
+        public bool IsChecked {
+            get { return isChecked; }
+            set {
+                isChecked = value;
+                UpdateColor();
+            }
+        }
+        public bool IsHiglighted {
+            get { return isHighlighted; }
+            set {
+                isHighlighted = value;
+                UpdateColor();
+            }
+        }
 
         public ChessSquare(bool gray)
         {
             InitializeComponent();
-            isGray = gray;
-            SetUpColors();
-            SetBackground();
-        }
-
-        private void SetUpColors()
-        {
-            gray = new SolidColorBrush(Colors.Gray);
-            white = new SolidColorBrush(Colors.White);
-            green = new SolidColorBrush(Colors.Green);
-            blue = new SolidColorBrush(Colors.DodgerBlue);
-            red = new SolidColorBrush(Colors.Red);
-        }
-
-        public void SetBackground()
-        {
-            if (isGray)
-                Square.Background = gray;
-            else
-                Square.Background = white;
+            IsGray = gray;
         }
 
         public void SetPicture(Space space)
@@ -65,46 +81,52 @@ namespace ChessDisplay
 
         private void HighLightSquare(object sender, MouseEventArgs e)
         {
-            Square.Background = blue;
+            IsHiglighted = true;
         }
 
         public void SelectPiece()
         {
-            Square.Background = blue;
-            selected = true;
+            IsClicked = true;
         }
 
         public void DeselectPiece()
         {
-            selected = false;
-            SetBackground();
+            IsClicked = false;
         }
 
         private void UnHightLightSquare(object sender, MouseEventArgs e)
         {
-            if (!selected)
-                SetBackground();
-
-            if (IsPossibleMove)
-                Square.Background = green;
-
-            if (InCheck)
-            {
-                Square.Background = red;
-            }
+            IsHiglighted = false;
 
         }
 
         internal void PossibleMove()
         {
-            Square.Background = green;
-            IsPossibleMove = true;
+            IsPossible = true;
         }
 
         internal void Check()
         {
-            Square.Background = red;
-            InCheck = true;
+            IsChecked = true;
+        }
+
+        public void UpdateColor() {
+            if (IsHiglighted || IsClicked) {
+                SetBackground(blue);
+            } else if (IsChecked) {
+                SetBackground(red);
+            } else if (IsPossible) {
+                SetBackground(green);
+            } else if (IsGray) {
+                SetBackground(gray);
+            } else {
+                SetBackground(white);
+            }
+        }
+        private void SetBackground(SolidColorBrush color) {
+            if (Square.Background != color) {
+                Square.Background = color;
+            }
         }
     }
 }

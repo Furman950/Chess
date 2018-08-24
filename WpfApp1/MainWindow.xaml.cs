@@ -87,8 +87,7 @@ namespace ChessDisplay
                 int.TryParse(chessSquare.GetValue(Grid.RowProperty).ToString(), out int toY);
                 if (board.Move(pieceX, pieceY, toX, toY))
                 {
-                    if (chessSquareBoard[kingY, kingX].InCheck)
-                        chessSquareBoard[kingY, kingX].InCheck = false;
+                    chessSquareBoard[kingY, kingX].IsChecked = false;
                 }
                 selectedSquare?.DeselectPiece();
                 firstClick = true;
@@ -96,20 +95,10 @@ namespace ChessDisplay
                 ResetBoard();
             }
 
-            if (lightTurn)
-            {
-                if (board.Check(PieceColor.D))
-                    KingInCheck(PieceColor.D);
-
-                lightTurn = false;
-            }
-            else
-            {
-                if (board.Check(PieceColor.L))
-                    KingInCheck(PieceColor.L);
-
-                lightTurn = true;
-            }
+            if (board.Check(PieceColor.D))
+                KingInCheck(PieceColor.D);
+            if (board.Check(PieceColor.L))
+                KingInCheck(PieceColor.L);
         }
 
         private void KingInCheck(PieceColor color)
@@ -135,8 +124,7 @@ namespace ChessDisplay
             {
                 foreach (var move in moveList)
                 {
-                    chessSquareBoard[move[1], move[0]].IsPossibleMove = false;
-                    chessSquareBoard[move[1], move[0]].SetBackground();
+                    chessSquareBoard[move[1], move[0]].IsPossible = false;
                 }
             }
         }
