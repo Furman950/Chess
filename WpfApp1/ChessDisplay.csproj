@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\ChessPiece.cs" />
-    <Compile Include="Models\ChessPieces.cs" />
     <Compile Include="Models\Space.cs" />
     <Compile Include="PawnPromotion.xaml.cs">
       <DependentUpon>PawnPromotion.xaml</DependentUpon>
