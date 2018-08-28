@@ -25,6 +25,7 @@ namespace ChessDisplay
         ChessSquare[,] chessSquareBoard = new ChessSquare[8, 8];
         List<int[]> moveList;
         int kingX, kingY;
+        MessageBoxResult playAgain;
 
         public MainWindow()
         {
@@ -99,6 +100,25 @@ namespace ChessDisplay
                 KingInCheck(PieceColor.D);
             if (board.Check(PieceColor.L))
                 KingInCheck(PieceColor.L);
+
+
+            if (board.CheckMate(PieceColor.D))
+                playAgain = MessageBox.Show("Light Wins!\nDo you want to play again?", "Winner", MessageBoxButton.YesNo);
+
+            else if (board.CheckMate(PieceColor.L))
+                playAgain = MessageBox.Show("Dark Wins!\nDo you want to play again?", "Winner", MessageBoxButton.YesNo);
+
+            if (playAgain == MessageBoxResult.Yes)
+            {
+                new MainWindow().Show();
+                this.Close();
+                
+            }
+            else if (playAgain == MessageBoxResult.No)
+            {
+                this.Close();
+            }
+
         }
 
         private void KingInCheck(PieceColor color)
