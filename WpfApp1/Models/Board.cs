@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using ChessDisplay.Models;
+using WpfApp1;
 
 namespace ChessDisplay.Models {
 
