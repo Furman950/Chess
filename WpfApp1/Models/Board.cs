@@ -186,6 +186,9 @@ namespace ChessDisplay.Models {
                 this[locationX, locationY] = null;
                 this[toX, toY] = movingPiece;
                 CurrentTurn = CurrentTurn == PieceColor.L ? PieceColor.D : PieceColor.L;
+                if (movingPiece.Piece == Pieces.P && (toY == 7 || toY == 0)) {
+
+                }
                 return true;
             }
             return false;
