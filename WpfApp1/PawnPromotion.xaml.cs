@@ -27,5 +27,29 @@ namespace WpfApp1
             var pawnPromotion = this.Owner as ChessDisplay.MainWindow;
             
         }
+
+        private void btn_Clicked(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            char firstLetter = btn.Content.ToString()[0];
+
+            switch (firstLetter)
+            {
+                case 'Q':
+                    ChosenPiece = Pieces.Q;
+                    break;
+                case 'K':
+                    ChosenPiece = Pieces.N;
+                    break;
+                case 'B':
+                    ChosenPiece = Pieces.B;
+                    break;
+                case 'R':
+                    ChosenPiece = Pieces.R;
+                    break;
+            }
+
+            this.Close();
+        }
     }
 }

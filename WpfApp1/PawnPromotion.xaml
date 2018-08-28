@@ -7,6 +7,32 @@
         mc:Ignorable="d"
         Title="PawnPromotion" Height="450" Width="800">
     <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <Label Content="Choose Piece for Pawn Promotion"  HorizontalAlignment="Center" FontSize="48" FontWeight="Bold"></Label>
+
+            <Grid Margin="0, 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".25*"></ColumnDefinition>
+                    <ColumnDefinition Width=".25*"></ColumnDefinition>
+                    <ColumnDefinition Width=".25*"></ColumnDefinition>
+                    <ColumnDefinition Width=".25*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Button Content="Queen" Margin="30, 0" Click="btn_Clicked"></Button>
+
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Button Content="Knight" Margin="30, 0" Click="btn_Clicked"></Button>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Button Content="Bishop" Margin="30, 0" Click="btn_Clicked"></Button>
+                </Grid>
+                <Grid Grid.Column="3">
+                    <Button Content="Rook" Margin="30, 0" Click="btn_Clicked"></Button>
+                </Grid>
+            </Grid>
+           
+        </StackPanel>
         
     </Grid>
 </Window>
