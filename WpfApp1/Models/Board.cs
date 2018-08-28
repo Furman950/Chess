@@ -187,7 +187,11 @@ namespace ChessDisplay.Models {
                 this[toX, toY] = movingPiece;
                 CurrentTurn = CurrentTurn == PieceColor.L ? PieceColor.D : PieceColor.L;
                 if (movingPiece.Piece == Pieces.P && (toY == 7 || toY == 0)) {
-
+                    PawnPromotion promotionWindow = new PawnPromotion();
+                    promotionWindow.ShowDialog();
+                    this[toX, toY] = new ChessPiece(promotionWindow.ChosenPiece, movingPiece.Color, new BitmapImage(
+                        new Uri($"../Resources/{promotionWindow.ChosenPiece.ToString()}_{movingPiece.Color.ToString()}.png",
+                        UriKind.Relative)));
                 }
                 return true;
             }
